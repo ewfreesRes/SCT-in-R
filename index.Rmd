@@ -1,0 +1,62 @@
+--- 
+title: "A Guide to Writing Submission Correctness Tests for Datacamp using R"
+author: "Jake W. Thornton"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook
+documentclass: book
+biblio-style: econPeriod
+link-citations: yes
+description: "As businesses continue to collect greater amounts of data, it becomes important for people to develop the technical skills necessary to analyze the data, and report back to the company. One company, DataCamp, offers a solution that can be used to teach programming skills in R and Python. To do this, content creators imagine and design problems that need to be solved using a specific series of coded inputs to help teach. These problems each have solutions that enable the computer to check and see if the learner’s input correctly matches the solution input. In DataCamp, the code used to check for correctness are solution correctness tests, or SCTs for short. In this short tutorial, you will learn how to write a wide variety of SCTs using R."
+---
+
+
+
+
+```{r include = FALSE}
+knitr::opts_chunk$set(results = "hold")
+EVALUATE_CHAP1 <- FALSE
+EVALUATE_CHAP1 <- TRUE
+EVALUATE_CHAP2 <- FALSE
+EVALUATE_CHAP2 <- TRUE
+EVALUATE_CHAP3 <- FALSE
+EVALUATE_CHAP3 <- TRUE
+EVALUATE_CHAP4 <- FALSE
+EVALUATE_CHAP4 <- TRUE
+EVALUATE_CHAP5 <- FALSE
+EVALUATE_CHAP5 <- TRUE
+tutorial::go_interactive(greedy = FALSE)
+```
+
+# Preface {-}
+
+<p style="text-align:right;">
+*Date: `r format(Sys.Date(), "%d %B %Y")`*</p>
+
+
+### About Submission Correctness Tests {-}
+
+As businesses continue to collect greater amounts of data, it becomes important for people to develop the technical skills necessary to analyze the data, and report back to the company. One company, DataCamp, offers a solution that can be used to teach programming skills in R and Python. To do this, content creators imagine and design problems that need to be solved using a specific series of coded inputs to help teach. These problems each have solutions that enable the computer to check and see if the learner’s input correctly matches the solution input. In DataCamp, the code used to check for correctness are solution correctness tests, or SCTs for short. In this short tutorial, you will learn how to write a wide variety of SCTs using R.
+
+### The Basics of SCT's {-}
+
+The basics of writing a submission correctness test consist of an initializing function, a "chain" function, and then varying calls of "check" functions. The initializing function has the form:
+
+```{r eval=FALSE, include=TRUE}
+ex()
+```
+
+while the “chain” function has the form:
+
+```{r eval=FALSE, include=TRUE}
+%>%
+```
+
+Combining the initial function and a single call of the chain function is the beginning of all the SCTs that you can write using R, and looks like the following:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>%
+```
+
+With this in mind, let us learn about the first set of submission correctness tests we can write.
+

@@ -1,0 +1,153 @@
+#Checking Objects
+
+**Chapter description**
+
+This chapter serves as in introduction to the most basic and useful submission correctness test that can be utilized in both DataCamp and DataCamp light, how to check objects in R. It begins with checking the existence of vectors in R, moves into making sure that the contents of the vector are correct, and ends with checking the existence of dataframes, as well as specific columns inside of a dataframe.
+
+## Checking a vector 
+
+***
+
+**In this section, you will learn how to:**
+
+- Check that a vector exists in R
+
+- Check to see if the contents of the vector match the contents found in the solution.
+
+***
+
+### Checking an object's existence
+
+One of the most useful tools that can be utilized when creating submission correctness tests. Say for example, that the question asked a learner to assign the value of 23 to the variable `x`. The correct answer would look something like the following:
+
+```{r}
+x = 23
+````
+
+The first step is to check and see whether or not the learner was able to define a variable `x`. This can be done with the `check_object()` function in R. A SCT that property identifies whether or not a learner was able to create an object named `x` can be seen below:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_object("x")
+```
+
+If the learner has assigned any value or string to a variable named `x`, the SCT will come back as passed, and will assume everything is correct. The `check_object()` function will work for any object that exists in R, such as singular numbers, vectors, character strings, matrices, and lists. This implies that all of the following as "correct" possible answers while using the previously mentioned SCT:
+
+```{r}
+x = 23
+x = c(19,4,6)
+x = "oranges"
+x = matrix(NA,nrow=7,ncol=3)
+```
+
+Since this can not all possibly be correct at the same time, it is also important to write a SCT that checks to insure the content of the object is also correct.
+
+### Check an object's correctness
+
+Now that we are able to check and see whether or not an object has been defined in R, it becomes important to check to see whether or not the content of that object matches what is found in the solution. looking back to our simple example we have:
+
+```{r}
+x = 23
+```
+
+We are aware that we can check if `x` exists or not in the R environment using `Check_object()`. Following that, we are able to utilize `check_equal()` as the next step in order to see if the content of `x` matches what is found in the solution inventor. One example of an SCT what would property check the existence and correctness of `x` would be as follows:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_object("x") %>% check_equal()
+```
+
+This SCT first checks to see whether or not an object named `x` exists in the R environment. If `x` does not exist, it will give a general error saying that the object `x` has yet to be defined. If `x` does exist, then it will check and see whether or not the contents of the learners assigned variable match those found in the solution. Now only the top line works, while the rest fail due to various reasons:
+
+```{r}
+#code that would pass
+x = 23
+
+#code that fails because x is not defined
+y = 3.14
+y = 23
+
+#code that fails because x is not correct
+x = c(19,4,6)
+x = "oranges"
+x = matrix(NA,nrow=7,ncol=3)
+```
+ 
+## Checking a Dataframe
+
+***
+
+**In this section, you will learn how to:**
+
+- Check that a dataframe exists in R
+
+- Check to see that specific columns have been defined within a dataframe
+
+***
+
+### Checking a dataframe's existence and correctness
+
+Let us complicate our example a little bit, and move from a simple vector to a dataframe initially containing two columns, `x1` and `x2` into a dataframe named test.data as follows:
+
+```{r}
+x1=seq(1,10,1)
+x2=rep(2,10)
+test.data=data.frame(x1,x2)
+```
+
+Using `check_object()` we can check and see whether or not the dataframe exists, just like any other object in R. One SCT for testing this using our example is as follows:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_object("test.data")
+```
+
+in addition to that, we may also use `check_equal()` to insure that the learner's solution, and the official solution are a perfect match. This would look something like the following:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_obect("test.data") %>% check_equal()
+```
+
+### Checking columns
+
+While it may be useful to check that the entirety of the learner's dataframe perfectly matches yours, there may be situations where the learner decides to take an extra step in getting to the desired solution. Take the following as an example:
+
+```{r}
+#Pre Exercise Code
+O=c(5,4,8,2,9,3,5)
+E=c(4,6,8,4,8,1,7)
+data.chisq=data.frame(O,E)
+
+#Solution Code
+data.chisq$chisq=((data.chisq$O-data.chisq$E)^2)/data.chisq$E
+
+#Learner's Code
+data.chisq$O.E=data.chisq$O-data.chisq$E
+data.chisq$sq=data.chisq$O.E^2
+data.chisq$chisq=data.chisq$sq/data.chisq$E
+```
+
+As you can tell, the learner created a few extra columns that were used to calculate the end result. If we were to simply use `check_equal()` immediately after our `check_object()`, the result would say that the learner's answer is not correct, which is not the result we want. We can get around this by checking to see whether or not a specific column exists inside of a dataframe, and then checking to see if its contents are correct.
+
+To check the existence of a column inside of a dataframe, we can use the `check_column()` function after our `check_object()` function as follows:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_object("data.chisq") %>% check_column(., "chisq")
+```
+
+Furthermore, we can check and insure that the contents of `data.chisq$chisq` are correct by adding the `check_equal()` function after the `check_column()` function as such:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_object("data.chisq") %>% check_column(., "chisq") %>% check_equal()
+```
+
+##review
+
+***
+
+**By now, you should be able to:**
+
+-check an object's existence
+
+-Check to see if an object has been correctly defined
+
+-check to see if specific columns in a dataframe have been defined correctly
+
+***

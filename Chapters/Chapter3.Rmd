@@ -1,0 +1,206 @@
+#Extras
+
+**Chapter Description**
+
+This chapter introduces a variety of special conditions and unique functions that can be used to create more accurate and useful submission correctness tests. In addition to this, we also mention arguments of check functions that can be used to write custom error or success messages to your submission correctness tests. 
+
+## Checking Multiple Conditions
+
+***
+
+In this section, you will learn how to:
+
+-Check multiple arguments for a given function
+
+-check multiple columns for a given dataframe
+
+***
+
+
+### Multiple arguments
+
+While being able to check if a single argument is correct in a given function is nice, there are a wide variety of functions were a single argument is not sufficient in order to guarantee correctness of the learner's submission. Some examples of functions like these are `lm()`, `plot()`, and `round()` as well as many others. Let us say you wanted the learner to run a simple linear regression on a data set. The solution may look something like the following:
+
+```{r eval=FALSE, include=TRUE}
+lm(hp~mpg, data=mtcars)
+```
+
+In this problem, we would want to be able to check that both the `formula` and the `data` arguments are specified correctly in the learner's submission. In order for us to do this, we can make use of brackets `{}` in order to set up multiple checks for the same function. an example of an SCT that would properly check this would be the following:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_function("lm") %>% {
+  check_arg(., "formula") %>% check_equal()
+  check_arg(., "data") %>% check_equal()
+}
+```
+
+As a note: the `lm()` function is a very adaptable function, and there are multiple ways to run the regression and receive the same output, such as the following:
+
+```{r eval=FALSE, include=TRUE}
+lm(mtcars$hp~mtcars$mpg)
+```
+
+This means that at times, checking multiple arguments may not be the best fit for the SCT, and it may be better to simply check the result using `check_result()`
+
+### Multiple columns
+
+Using brackets to check multiple things per call of `check_------()` is not just unique to functions, and can be applied to nearly all of the check functions that can be used. Another typical use of checking multiple items looks at multiple columns within a dataframe. Lets say you have the following pre-exercise and solution code:
+
+```{r eval=FALSE, include=TRUE}
+#pre-exercise
+mpg=mtcars$mpg
+hp=mtcars$hp
+test.data=data.frame(mpg,hp)
+
+#solution code
+test.data$L.hp=log(hp)
+test.data$SQRT.hp=sqrt(hp)
+```
+
+While it is possible to simply check and see if the entire dataframe is correct using a SCT as follows:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_object("test.data") %>% check_equal()
+```
+
+The SCT does not give you the ability to help learner's track down exactly where they went wrong in working their way to the solution. A more accurate and helpful approach would be to make use of brackets in the following way:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_object("test.data") %>% {
+  check_column(., "L.hp") %>% check_equal()
+  check_column(., "SQRT.hp") %>% check_equal()
+} 
+```
+
+This gives learners more specific feedback if and when they make a mistake while trying to reach the correct answer.
+
+As an important note, there are many instances in the SCT were a `check_arg()` or a `check_column()` has a `.` as the first argument followed by  a `,` and then the name of the argument/column that we would like to check. This `.` is a very important argument for the `check` family of functions, as it allows the function to search the entirety of the function/dataframe for the listed argument/column, as opposed to only being able to check in a few pre-defined places. If you find that an SCT is not preforming how you believe it should, try adding the `.,` into your `check` functions to see if that alleviates the problem.
+
+## Multiple Function Calls
+
+***
+
+In this section, you will learn how to:
+
+-Check if a function is called multiple times
+
+-check if each function call gives the correct output
+
+***
+
+Normally, a problem will only require that a function be called one time at most. Thing such as standard deviations, means, summarys, and plots are done once to get an overview of the data before any real analysis or manipulation of the data starts. However, there are situations where one must make multiple calls of these functions. One example could be if you wanted to have side-by-side graphs, showing the relationship between two things. The pre-exercise and solution code could look like the following:
+
+```{r eval=FALSE, include=TRUE}
+#Pre-exercise
+mpg=mtcars$mpg
+hp=mtcars$hp
+Lhp=log(mtcars$hp)
+par(mfrow=c(1,2))
+
+#Solution code
+plot(x=mpg, y=hp, pch=19, col="red", main="Miles per gallon vs Horsepower")
+plot(x=mpg, y=Lhp, pch=19, col="blue", main="Miles per gallon vs  log Horsepower")
+```
+
+The standard intuition would be to have 2 SCTs, one to check each call of the function `plot()` as follows. 
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_function("plot") %>% {
+  check_arg(., "x") %>% check_equal()
+  check_arg(., "y") %>% check_equal()
+}
+ex() %>% check_function("plot") %>% {
+  check_arg(., "x") %>% check_equal()
+  check_Arg(., "y") %>% check_equal()
+}
+```
+
+While this may appear to make sense, as you check for plot twice, both calls of `check_function("plot")` will find the first instance of plot, and check that one only. This means even if you were to nest extra `check_arg()` such as the title or the color, both of the SCTs would focus on the first call of `plot()` to get around this, we can use an argument inside of `check_function()` named `index`. By setting index equal to an integer corresponding with which call of the function you would like the SCT to check, you can now check both calls of `plot()` and insure they were used correctly. The correct SCT for this problem could look like:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_function("plot", index=1) %>% {
+  check_arg(., "x") %>% check_equal()
+  check_arg(., "y") %>% check_equal()
+}
+ex() %>% check_function("plot", index=2) %>% {
+  check_arg(., "x") %>% check_equal()
+  check_arg(., "y") %>% check_equal()
+}
+```
+
+Now our SCT is set so that our first call of `check_function()` looks specifically at the first call of `plot()` and our second call of `check_function()` looks only at the second call of `plot()`
+
+
+## Messages
+
+***
+
+In this section, you will learn how to:
+
+-Write custom error messages for each function in the `check` family.
+
+-Include a success message at the end of a SCT
+
+***
+
+### Error Messages
+For each and every `check` function that has been presented in this guide, there is also a matching error message that lets you input a custom message that is displayed if that particular `check` function is what causes the SCT to fail. Below is a guide showing each of the functions with its matching error message:
+
+```{r eval=TRUE, include=FALSE}
+Function=c("check_object","check_column","check_function","check_arg","check_equal")
+Message=c("undefined_msg","col_missing_msg","not_called_msg","arg_not_specified_msg","incorrect_msg")
+Error.Messages=data.frame(Function,Message)
+```
+```{r}
+print(Error.Messages,row.names=FALSE)
+```
+
+The `check_result()` function does not need to have its own error message, because check result does not actually check anything, it only passes along to the `check_equal()` that it should be making sure that the solutions are equal. 
+
+For example, lets say the pre-exercise and solution code looked something like the following:
+
+```{r eval=FALSE, include=TRUE}
+#pre-exercise
+x=4.68451
+
+#solution
+round(x,4)
+```
+
+A working SCT with error messages could look like this:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_function("round", not_called_msg="Use the `round()` function to round x.") %>% {
+  check_arg(., "x", arg_not_specified_msg="Make sure to round the value found in x") %>% check_equal(incorrect_msg="Make sure x = 4.68451")
+  check_arg(., "digits",arg_not_specified_msg="Make sure to specify we want to round x to a specific number of digits") %>% check_equal(incorrect_msg="We would like to round x to 4 digits")
+}
+```
+
+### Success Messages
+
+While it is always nice to know what you've gotten wrong, it is also nice to receive a positive message whenever you get the problem correct, this can be done with the `success_msg()` function. The `success_msg()` goes on its own line, and does not have the typical `ex() %>%` that the other functions start with. For a very simple example lets say we have the following solution code:
+
+```{r eval=FALSE, include=TRUE}
+x=4
+```
+
+A SCT with a nice success_msg would look like the following:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_object("x") %>% check_equal()
+success_msg("Excellent! you were able to asssign a value of 4 to the variable x.")
+```
+
+##review
+
+***
+
+**By now, you should be able to:**
+
+-Check for multiple function calls
+
+-Check for multiple arguments/columns in a single SCT
+
+-Write error and success messages
+
+***

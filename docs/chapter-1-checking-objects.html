@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Online Tutorial on Regression Modeling with Actuarial and Financial Applications</title>
+  <meta name="description" content="Statistical techniques can be used to address new situations. This is important in a rapidly evolving risk management world. Analysts with a strong analytical background understand that a large data set can represent a treasure trove of information to be mined and can yield a strong competitive advantage. This course provides budding analysts with a foundation in multiple reression. Participants will learn about these statistical techniques using data on the demand for insurance, lottery sales, healthcare expenditures, and other applications. Although no specific knowledge of actuarial or risk management is presumed, the approach introduces applications in which statistical techniques can be used to analyze real data of interest.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Online Tutorial on Regression Modeling with Actuarial and Financial Applications" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Statistical techniques can be used to address new situations. This is important in a rapidly evolving risk management world. Analysts with a strong analytical background understand that a large data set can represent a treasure trove of information to be mined and can yield a strong competitive advantage. This course provides budding analysts with a foundation in multiple reression. Participants will learn about these statistical techniques using data on the demand for insurance, lottery sales, healthcare expenditures, and other applications. Although no specific knowledge of actuarial or risk management is presumed, the approach introduces applications in which statistical techniques can be used to analyze real data of interest." />
+  <meta name="github-repo" content="<a href="https://github.com/ewfreesRes/RegressModel" class="uri">https://github.com/ewfreesRes/RegressModel</a>" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Online Tutorial on Regression Modeling with Actuarial and Financial Applications" />
+  
+  <meta name="twitter:description" content="Statistical techniques can be used to address new situations. This is important in a rapidly evolving risk management world. Analysts with a strong analytical background understand that a large data set can represent a treasure trove of information to be mined and can yield a strong competitive advantage. This course provides budding analysts with a foundation in multiple reression. Participants will learn about these statistical techniques using data on the demand for insurance, lottery sales, healthcare expenditures, and other applications. Although no specific knowledge of actuarial or risk management is presumed, the approach introduces applications in which statistical techniques can be used to analyze real data of interest." />
+  
+
+<meta name="author" content="Edward W. (Jed) Frees, University of Wisconsin-Madison">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="index.html">
+<link rel="next" href="basic-linear-regression.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script language="javascript">
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+<script language="javascript">
+function toggle(id1,id2) {
+	var ele = document.getElementById(id1); var text = document.getElementById(id2);
+	if (ele.style.display == "block") {ele.style.display = "none"; text.innerHTML = "Show Solution";}
+		else {ele.style.display = "block"; text.innerHTML = "Hide Solution";}}
+</script>
+
+<script language="javascript">
+function togglecode(id1,id2) {
+   var ele = document.getElementById(id1); var text = document.getElementById(id2);
+   if (ele.style.display == "block") {ele.style.display = "none"; text.innerHTML = "Show R Code";}
+      else {ele.style.display = "block"; text.innerHTML = "Hide R Code";}}
+</script>
+<script language="javascript">
+function toggleEX(id1,id2) {
+   var ele = document.getElementById(id1); var text = document.getElementById(id2);
+   if (ele.style.display == "block") {ele.style.display = "none"; text.innerHTML = "Show Example";}
+      else {ele.style.display = "block"; text.innerHTML = "Hide Example";}}
+</script>
+<script language="javascript">
+function toggleTheory(id1,id2) {
+   var ele = document.getElementById(id1); var text = document.getElementById(id2);
+   if (ele.style.display == "block") {ele.style.display = "none"; text.innerHTML = "Show Theory";}
+      else {ele.style.display = "block"; text.innerHTML = "Hide Theory";}}
+</script>
+
+<script language="javascript">
+function toggleDet(id1,id2) {
+   var ele = document.getElementById(id1); var text = document.getElementById(id2);
+   if (ele.style.display == "block") {ele.style.display = "none"; text.innerHTML = "Show Details";}
+      else {ele.style.display = "block"; text.innerHTML = "Hide  Details";}}
+</script>
+
+<script language="javascript">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+
+
+<script src=https://cdn.datacamp.com/datacamp-light-latest.min.js></script>
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover(); 
+});
+</script>
+
+<style>
+/* Rearrange console label */
+.datacamp-exercise ol li, .datacamp-exercise ul li {
+  margin-bottom: 0em !important;
+}
+
+/* Remove bullet marker */
+.datacamp-exercise ol li::before, .datacamp-exercise ul li::before {
+  content: '' !important;
+}
+</style>
+
+
+<script language="javascript">
+var submitAnswer = function() {
+
+  var radios = document.getElementsByName('choice');
+  var val= "";
+  for (var i = 0, length = radios.length; i < length; i++) {
+      if (radios[i].checked) {
+         val = radios[i].value; 
+         break;
+       }
+  }
+  
+  if (val == "" ) {
+    alert('please select choice answer');
+  } else if ( val == "Correct" ) {
+    alert('Answer is correct !');
+  } else {
+    alert('Answer is wrong');
+  }
+};
+</script>
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125587869-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-125587869-1');
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Regression Modeling Online Tutorial</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-regression-modeling"><i class="fa fa-check"></i>About Regression Modeling</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i>Resources</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#tutorial-description"><i class="fa fa-check"></i>Tutorial Description</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#welcome-to-the-tutorial-video"><i class="fa fa-check"></i>Welcome to the Tutorial Video</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="chapter-1-checking-objects.html"><a href="chapter-1-checking-objects.html"><i class="fa fa-check"></i><b>1</b> Chapter 1 - Checking Objects</a><ul>
+<li class="chapter" data-level="1.1" data-path="chapter-1-checking-objects.html"><a href="chapter-1-checking-objects.html#checking-a-vector"><i class="fa fa-check"></i><b>1.1</b> Checking a vector</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="chapter-1-checking-objects.html"><a href="chapter-1-checking-objects.html#checking-an-objects-existence"><i class="fa fa-check"></i><b>1.1.1</b> Checking an object’s existence</a></li>
+<li class="chapter" data-level="1.1.2" data-path="chapter-1-checking-objects.html"><a href="chapter-1-checking-objects.html#check-an-objects-correctness"><i class="fa fa-check"></i><b>1.1.2</b> Check an object’s correctness</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html"><i class="fa fa-check"></i><b>2</b> Basic Linear Regression</a><ul>
+<li class="chapter" data-level="2.1" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#correlation"><i class="fa fa-check"></i><b>2.1</b> Correlation</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#video"><i class="fa fa-check"></i><b>2.1.1</b> Video</a></li>
+<li class="chapter" data-level="2.1.2" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#exercise.-correlations-and-the-wisconsin-lottery"><i class="fa fa-check"></i><b>2.1.2</b> Exercise. Correlations and the Wisconsin lottery</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#method-of-least-squares"><i class="fa fa-check"></i><b>2.2</b> Method of least squares</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#video-1"><i class="fa fa-check"></i><b>2.2.1</b> Video</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#exercise.-least-squares-fit-using-housing-prices"><i class="fa fa-check"></i><b>2.2.2</b> Exercise. Least squares fit using housing prices</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#understanding-variability"><i class="fa fa-check"></i><b>2.3</b> Understanding variability</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#video-2"><i class="fa fa-check"></i><b>2.3.1</b> Video</a></li>
+<li class="chapter" data-level="2.3.2" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#exercise.-summarizing-measures-of-uncertainty"><i class="fa fa-check"></i><b>2.3.2</b> Exercise. Summarizing measures of uncertainty</a></li>
+<li class="chapter" data-level="2.3.3" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#exercise.-effects-of-linear-transforms-on-measures-of-uncertainty"><i class="fa fa-check"></i><b>2.3.3</b> Exercise. Effects of linear transforms on measures of uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#statistical-inference"><i class="fa fa-check"></i><b>2.4</b> Statistical inference</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#video-3"><i class="fa fa-check"></i><b>2.4.1</b> Video</a></li>
+<li class="chapter" data-level="2.4.2" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#exercise.-statistical-inference-and-wisconsin-lottery"><i class="fa fa-check"></i><b>2.4.2</b> Exercise. Statistical inference and Wisconsin lottery</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#diagnostics"><i class="fa fa-check"></i><b>2.5</b> Diagnostics</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#video-4"><i class="fa fa-check"></i><b>2.5.1</b> Video</a></li>
+<li class="chapter" data-level="2.5.2" data-path="basic-linear-regression.html"><a href="basic-linear-regression.html#exercise.-assessing-outliers-in-lottery-sales"><i class="fa fa-check"></i><b>2.5.2</b> Exercise. Assessing outliers in lottery sales</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/ewfreesRes/RegressModel" target="blank">Regression Modeling Tutorial on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Online Tutorial on <code>Regression Modeling with Actuarial and Financial Applications</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-1---checking-objects" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Chapter 1 - Checking Objects</h1>
+<p><strong>Chapter description</strong> This chapter serves as in introduction to the most basic and useful submission correctness test that can be utilized in both DataCamp and DataCamp light, how to check objects in R. It begins with checking the existance of vectors in R, moves into making sure that the contents of the vector are correct, and ends with checking the existance of dataframes, as well as specific columns inside of a dataframe.</p>
+<div id="checking-a-vector" class="section level2">
+<h2><span class="header-section-number">1.1</span> Checking a vector</h2>
+<hr />
+<p>In this section, you will learn how:</p>
+<ul>
+<li>Check that a vector exists in R</li>
+<li>Check to see if the contents of the vector match the contents found in the solution.</li>
+<li>Write unique error messages depending on the error made</li>
+</ul>
+<hr />
+<div id="checking-an-objects-existence" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Checking an object’s existence</h3>
+<p>One of the most useful tools that can be utilized when creating submission correctness tests. Say for example, that the question asked a learner to assign the value of 23 to the variable “x”. The correct answer would look something like the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="dv">23</span></code></pre></div>
+<p>The first step is to check and see whether or not the learner was able to define a variable x. This can be done with the <code>check_object()</code> function in R. A SCT that property identifies whether or not a learner was able to create an object named “x” can be seen below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_object</span>(<span class="st">&quot;x&quot;</span>)</code></pre></div>
+<p>If the learner has assigned any value at all to a variable named “x”, the SCT will come back as passed, and will assume everything is correct, leaving all of the following as “correct” possible answers while using the previously mentioned SCT:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="dv">23</span>
+x =<span class="st"> </span><span class="kw">c</span>(<span class="dv">19</span>,<span class="dv">4</span>,<span class="dv">6</span>)
+x =<span class="st"> &quot;oranges&quot;</span>
+x =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,<span class="dt">nrow=</span><span class="dv">7</span>,<span class="dt">ncol=</span><span class="dv">3</span>)</code></pre></div>
+<p>Since this can not all possibly be correct at the same time, it is also important to write a SCT that checks to insure the content of the object is also correct.</p>
+</div>
+<div id="check-an-objects-correctness" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> Check an object’s correctness</h3>
+<p>Now that we are able to check and see whether or not an object has been defined in R, it becomes important to check to see whether or not the content of that object matches what is found in the solution. looking back to our simple example we have:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="dv">23</span></code></pre></div>
+<p>We are aware that we can check if “x” exists or not in the R evniroment using <code>Check_object()</code>. Following that, we are able to utilize <code>check_equal()</code> as the next step in order to see if the content of “x” matches what is found in the soluton enviornent. One example of an SCT what would property check the existance and correctness of “x” would be as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_object</span>(<span class="st">&quot;x&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()</code></pre></div>
+<p>This SCT first checks to see whether or not an object named “x” exists in the R enviroment. If “x” does not exist, it will give a general error saying that the objecgt “x” has yet to be defined. If “x” does exist, then it will check and see whether or not the contents of the learners assigned variable match those found in the solution. Now only the top line works, while the rest fail due to various reasons:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#code that would pass</span>
+x =<span class="st"> </span><span class="dv">23</span>
+
+<span class="co">#code that fails because x is not defined</span>
+y =<span class="st"> </span><span class="fl">3.14</span>
+y =<span class="st"> </span><span class="dv">23</span>
+
+<span class="co">#code that fails because x is not correct</span>
+x =<span class="st"> </span><span class="kw">c</span>(<span class="dv">19</span>,<span class="dv">4</span>,<span class="dv">6</span>)
+x =<span class="st"> &quot;oranges&quot;</span>
+x =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,<span class="dt">nrow=</span><span class="dv">7</span>,<span class="dt">ncol=</span><span class="dv">3</span>)</code></pre></div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="basic-linear-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": true,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/Chapters/Chapter1.Rmd",
+"text": "Edit"
+},
+"download": ["RegressModelDataCamp.pdf", "RegressModelDataCamp.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

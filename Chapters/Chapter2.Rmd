@@ -1,0 +1,107 @@
+# Checking Functions
+
+**Chapter Description**
+
+This chapter introduces the concept of checking whether or not specific functions have been called. These can be used to not only check whether or not a given function has been called, but also can be used to check specific arguments of the function to make sure they have been specified and that the argument is the same as that given in the solution. At the conclusion of this chapter, we focus on checking the output of a function as a way of checking if a function has been called correctly.
+
+## Checking function calls
+
+***
+
+**In this section, you will learn how to:**
+
+-Check whether or not a specific function was called
+
+***
+
+In addition to being able to check and see whether or not an object exists within R, it can also be helpful to check and see if specific functions were called. The easiest way to do this is by using the `check_function()` function.
+
+For example, lets say you asked the learner to find the standard deviation of a data set that was given to them. The solution might look something like the flowing:
+
+```{r eval=FALSE, include=TRUE}
+sd(mtcars$mpg)
+```
+
+Since we only wanted to know what the standard deviation was, and since we did not ask the learner to assign this value to a variable, we can not use `check_object()`. We can, however, use `check_function()` to see if they called the function `sd`. This would look something along the lines of this:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_function("sd")
+```
+
+This will check and see whether or not the code submitted by the learner contained a call of the function `sd()` The problem with simply using `check_function()` is that there is no check to see if we found the standard deviation of the correct thing or not, so all of the following would pass the SCT above.
+
+```{r eval=FALSE, include=TRUE}
+sd(mtcars$mpg)
+sd(1)
+sd(mtcars$disp)
+sd(c(1,2,3))
+```
+
+
+## Calling Functions Correctly
+When it comes to creating SCTs that also check to see if the right answer was reached using the given function, you have two options. You can either create an SCT that specifies certain arguments that must match, or you can create an SCT that checks to see if the output is the same.
+
+### Argument Approach
+
+***
+
+**In this section, you will learn how to:**
+
+-Check the arguments of a function to see if they were called
+
+-Check the called arguments of a function and see if they were correct
+
+***
+
+One way to ensure that the function gives out the correct result is to specify that all of the arguments utilized in the function are correct. The R code to write this SCT utilizes the `check_arg()` function in order to check a specific argument in a function. Referring back to our standard deviation example, we had:
+
+```{r eval=FALSE, include=TRUE}
+sd(mtcars$mpg)
+```
+
+If we were to include the `check_arg()` function in addition to our `check_function()` function, we would have the following SCT that  figures out if the learner found the standard deviation of miles per gallon in the dataframe mtcars. In addition to this, we can add the `check_equal()` to the end of our `check_arg()` call to make sure that the argument that the learner specified in the function is the exact same as the one specified in the solution.
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_function("sd") %>% check_arg(., "x") %>% check_equal()
+```
+
+The upside to utilizing this method, is that you get to write unique error messages for each argument that was not specified correctly, which will help the learner better understand where they went wrong, and why their solution was not correct. If you are having difficulties finding out the correct name of the argument you want to specify in a SCT, type ? followed by the function name in order to see what arguments are normally used by a function.
+
+
+### Output Approach
+
+***
+
+**In this section, you will learn how to:**
+
+-Check function calls by looking at the result of the function
+
+***
+
+the other approach that can be utilized is simply checking the result, and making sure that the output from the function is the same as the output from that same function in the solution. This can be done by using the `check_result()` function. For example, lets say that the exercises wanted the learner to run `summary()` on the full data set mtcars, which would appear as the following:
+
+```{r eval=FALSE, include=TRUE}
+summary(mtcars)
+```
+
+The corresponding SCT would take the `check_function()` call to see if `summary` was called, would lead into a `check_result` to specify that we are interested in looking at the result from the function, as opposed to the arguments contained in the function, and the `check_equal()` would make sure that the result from the learner's submitted code is equal to the result from the solution code. The full statement would look like this:
+
+```{r eval=FALSE, include=TRUE}
+ex() %>% check_function("summary") %>% check_result() %>% check_equal()
+```
+
+The upside to utilizing this method is that it does not care exactly how the learner got to the correct answer, only that they utilized the correct function, and that the function's output was equal to what the solution had. The downside being that for complex functions, it may be harder to track down a small mistake if and when one is made.
+
+##review
+
+***
+
+**By now, you should be able to:**
+
+-Check to see if a function was called
+
+-Check to see if the arguments of a function were correctly specified
+
+-Check to see if the result of a function is equal to the solution
+
+***

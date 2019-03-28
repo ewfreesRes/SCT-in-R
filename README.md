@@ -1,2 +1,1 @@
-# SCT-in-R
-SCT book in R
+This is the source code for the ___.

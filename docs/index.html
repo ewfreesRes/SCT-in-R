@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>A Guide to Writing Submission Correctness Tests for Datacamp using R</title>
+  <meta name="description" content="As businesses continue to collect greater amounts of data, it becomes important for people to develop the technical skills necessary to analyze the data, and report back to the company. One company, DataCamp, offers a solution that can be used to teach programming skills in R and Python. To do this, content creators imagine and design problems that need to be solved using a specific series of coded inputs to help teach. These problems each have solutions that enable the computer to check and see if the learner’s input correctly matches the solution input. In DataCamp, the code used to check for correctness are solution correctness tests, or SCTs for short. In this short tutorial, you will learn how to write a wide variety of SCTs using R.">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="A Guide to Writing Submission Correctness Tests for Datacamp using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="As businesses continue to collect greater amounts of data, it becomes important for people to develop the technical skills necessary to analyze the data, and report back to the company. One company, DataCamp, offers a solution that can be used to teach programming skills in R and Python. To do this, content creators imagine and design problems that need to be solved using a specific series of coded inputs to help teach. These problems each have solutions that enable the computer to check and see if the learner’s input correctly matches the solution input. In DataCamp, the code used to check for correctness are solution correctness tests, or SCTs for short. In this short tutorial, you will learn how to write a wide variety of SCTs using R." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="A Guide to Writing Submission Correctness Tests for Datacamp using R" />
+  
+  <meta name="twitter:description" content="As businesses continue to collect greater amounts of data, it becomes important for people to develop the technical skills necessary to analyze the data, and report back to the company. One company, DataCamp, offers a solution that can be used to teach programming skills in R and Python. To do this, content creators imagine and design problems that need to be solved using a specific series of coded inputs to help teach. These problems each have solutions that enable the computer to check and see if the learner’s input correctly matches the solution input. In DataCamp, the code used to check for correctness are solution correctness tests, or SCTs for short. In this short tutorial, you will learn how to write a wide variety of SCTs using R." />
+  
+
+<meta name="author" content="Jake W. Thornton">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+
+<link rel="next" href="checking-objects.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script language="javascript">
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+<script language="javascript">
+function toggle(id1,id2) {
+	var ele = document.getElementById(id1); var text = document.getElementById(id2);
+	if (ele.style.display == "block") {ele.style.display = "none"; text.innerHTML = "Show Solution";}
+		else {ele.style.display = "block"; text.innerHTML = "Hide Solution";}}
+</script>
+
+<script language="javascript">
+function togglecode(id1,id2) {
+   var ele = document.getElementById(id1); var text = document.getElementById(id2);
+   if (ele.style.display == "block") {ele.style.display = "none"; text.innerHTML = "Show R Code";}
+      else {ele.style.display = "block"; text.innerHTML = "Hide R Code";}}
+</script>
+<script language="javascript">
+function toggleEX(id1,id2) {
+   var ele = document.getElementById(id1); var text = document.getElementById(id2);
+   if (ele.style.display == "block") {ele.style.display = "none"; text.innerHTML = "Show Example";}
+      else {ele.style.display = "block"; text.innerHTML = "Hide Example";}}
+</script>
+<script language="javascript">
+function toggleTheory(id1,id2) {
+   var ele = document.getElementById(id1); var text = document.getElementById(id2);
+   if (ele.style.display == "block") {ele.style.display = "none"; text.innerHTML = "Show Theory";}
+      else {ele.style.display = "block"; text.innerHTML = "Hide Theory";}}
+</script>
+
+<script language="javascript">
+function toggleDet(id1,id2) {
+   var ele = document.getElementById(id1); var text = document.getElementById(id2);
+   if (ele.style.display == "block") {ele.style.display = "none"; text.innerHTML = "Show Details";}
+      else {ele.style.display = "block"; text.innerHTML = "Hide  Details";}}
+</script>
+
+<script language="javascript">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+
+
+<script src=https://cdn.datacamp.com/datacamp-light-latest.min.js></script>
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover(); 
+});
+</script>
+
+<style>
+/* Rearrange console label */
+.datacamp-exercise ol li, .datacamp-exercise ul li {
+  margin-bottom: 0em !important;
+}
+
+/* Remove bullet marker */
+.datacamp-exercise ol li::before, .datacamp-exercise ul li::before {
+  content: '' !important;
+}
+</style>
+
+
+<script language="javascript">
+var submitAnswer = function() {
+
+  var radios = document.getElementsByName('choice');
+  var val= "";
+  for (var i = 0, length = radios.length; i < length; i++) {
+      if (radios[i].checked) {
+         val = radios[i].value; 
+         break;
+       }
+  }
+  
+  if (val == "" ) {
+    alert('please select choice answer');
+  } else if ( val == "Correct" ) {
+    alert('Answer is correct !');
+  } else {
+    alert('Answer is wrong');
+  }
+};
+</script>
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125587869-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-125587869-1');
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SCT in R for DataCamp</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-submission-correctness-tests"><i class="fa fa-check"></i>About Submission Correctness Tests</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-basics-of-scts"><i class="fa fa-check"></i>The Basics of SCT’s</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="checking-objects.html"><a href="checking-objects.html"><i class="fa fa-check"></i><b>1</b> Checking Objects</a><ul>
+<li class="chapter" data-level="1.1" data-path="checking-objects.html"><a href="checking-objects.html#checking-a-vector"><i class="fa fa-check"></i><b>1.1</b> Checking a vector</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="checking-objects.html"><a href="checking-objects.html#checking-an-objects-existence"><i class="fa fa-check"></i><b>1.1.1</b> Checking an object’s existence</a></li>
+<li class="chapter" data-level="1.1.2" data-path="checking-objects.html"><a href="checking-objects.html#check-an-objects-correctness"><i class="fa fa-check"></i><b>1.1.2</b> Check an object’s correctness</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="checking-objects.html"><a href="checking-objects.html#checking-a-dataframe"><i class="fa fa-check"></i><b>1.2</b> Checking a Dataframe</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="checking-objects.html"><a href="checking-objects.html#checking-a-dataframes-existence-and-correctness"><i class="fa fa-check"></i><b>1.2.1</b> Checking a dataframe’s existence and correctness</a></li>
+<li class="chapter" data-level="1.2.2" data-path="checking-objects.html"><a href="checking-objects.html#checking-columns"><i class="fa fa-check"></i><b>1.2.2</b> Checking columns</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="checking-objects.html"><a href="checking-objects.html#review"><i class="fa fa-check"></i><b>1.3</b> review</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="checking-functions.html"><a href="checking-functions.html"><i class="fa fa-check"></i><b>2</b> Checking Functions</a><ul>
+<li class="chapter" data-level="2.1" data-path="checking-functions.html"><a href="checking-functions.html#checking-function-calls"><i class="fa fa-check"></i><b>2.1</b> Checking function calls</a></li>
+<li class="chapter" data-level="2.2" data-path="checking-functions.html"><a href="checking-functions.html#calling-functions-correctly"><i class="fa fa-check"></i><b>2.2</b> Calling Functions Correctly</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="checking-functions.html"><a href="checking-functions.html#argument-approach"><i class="fa fa-check"></i><b>2.2.1</b> Argument Approach</a></li>
+<li class="chapter" data-level="2.2.2" data-path="checking-functions.html"><a href="checking-functions.html#output-approach"><i class="fa fa-check"></i><b>2.2.2</b> Output Approach</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="checking-functions.html"><a href="checking-functions.html#review-1"><i class="fa fa-check"></i><b>2.3</b> review</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="extras.html"><a href="extras.html"><i class="fa fa-check"></i><b>3</b> Extras</a><ul>
+<li class="chapter" data-level="3.1" data-path="extras.html"><a href="extras.html#checking-multiple-conditions"><i class="fa fa-check"></i><b>3.1</b> Checking Multiple Conditions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="extras.html"><a href="extras.html#multiple-arguments"><i class="fa fa-check"></i><b>3.1.1</b> Multiple arguments</a></li>
+<li class="chapter" data-level="3.1.2" data-path="extras.html"><a href="extras.html#multiple-columns"><i class="fa fa-check"></i><b>3.1.2</b> Multiple columns</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="extras.html"><a href="extras.html#multiple-function-calls"><i class="fa fa-check"></i><b>3.2</b> Multiple Function Calls</a></li>
+<li class="chapter" data-level="3.3" data-path="extras.html"><a href="extras.html#messages"><i class="fa fa-check"></i><b>3.3</b> Messages</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="extras.html"><a href="extras.html#error-messages"><i class="fa fa-check"></i><b>3.3.1</b> Error Messages</a></li>
+<li class="chapter" data-level="3.3.2" data-path="extras.html"><a href="extras.html#success-messages"><i class="fa fa-check"></i><b>3.3.2</b> Success Messages</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="extras.html"><a href="extras.html#review-2"><i class="fa fa-check"></i><b>3.4</b> review</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/thornton4/SCT-in-R" target="blank">SCT in R for DataCamp on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Guide to Writing Submission Correctness Tests for Datacamp using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">A Guide to Writing Submission Correctness Tests for Datacamp using R</h1>
+<h4 class="author"><em>Jake W. Thornton</em></h4>
+</div>
+<div id="preface" class="section level1 unnumbered">
+<h1>Preface</h1>
+<p style="text-align:right;">
+<em>Date: 28 March 2019</em>
+</p>
+<div id="about-submission-correctness-tests" class="section level3 unnumbered">
+<h3>About Submission Correctness Tests</h3>
+<p>As businesses continue to collect greater amounts of data, it becomes important for people to develop the technical skills necessary to analyze the data, and report back to the company. One company, DataCamp, offers a solution that can be used to teach programming skills in R and Python. To do this, content creators imagine and design problems that need to be solved using a specific series of coded inputs to help teach. These problems each have solutions that enable the computer to check and see if the learner’s input correctly matches the solution input. In DataCamp, the code used to check for correctness are solution correctness tests, or SCTs for short. In this short tutorial, you will learn how to write a wide variety of SCTs using R.</p>
+</div>
+<div id="the-basics-of-scts" class="section level3 unnumbered">
+<h3>The Basics of SCT’s</h3>
+<p>The basics of writing a submission correctness test consist of an initializing function, a “chain” function, and then varying calls of “check” functions. The initializing function has the form:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>()</code></pre></div>
+<p>while the “chain” function has the form:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">%&gt;%</span></code></pre></div>
+<p>Combining the initial function and a single call of the chain function is the beginning of all the SCTs that you can write using R, and looks like the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span></code></pre></div>
+<p>With this in mind, let us learn about the first set of submission correctness tests we can write.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="checking-objects.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": true,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
