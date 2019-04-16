@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="checking-functions.html">
-
+<link rel="prev" href="index.html">
+<link rel="next" href="checking-objects.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -281,136 +281,100 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="extras" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Extras</h1>
-<p><strong>Chapter Description</strong></p>
-<p>This chapter introduces a variety of special conditions and unique functions that can be used to create more accurate and useful submission correctness tests. In addition to this, we also mention arguments of check functions that can be used to write custom error or success messages to your submission correctness tests.</p>
-<div id="checking-multiple-conditions" class="section level2">
-<h2><span class="header-section-number">4.1</span> Checking Multiple Conditions</h2>
+<div id="pre-submission-correctness-test" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Pre Submission Correctness Test</h1>
+<p><strong>Chapter description</strong></p>
+<p>Before we can begin writing a submission correctness test, we first need to create and develop the other elements of a DataCamp light exercise. This chapter serves as a very brief introduction to the other elements of a DataCamp light exercise, as well as the standard notation utilized in the regression book {link here?}.</p>
+<div id="pre-exercise-code" class="section level2">
+<h2><span class="header-section-number">1.1</span> Pre-Exercise Code</h2>
 <hr />
-<p>In this section, you will learn how to:</p>
-<p>-Check multiple arguments for a given function</p>
-<p>-check multiple columns for a given dataframe</p>
+<p><strong>In this section, you will learn:</strong></p>
+<p>-The code indicating we are writing the pre-exercise code</p>
+<p>-The importance and usefulness of the pre-exercise code</p>
 <hr />
-<div id="multiple-arguments" class="section level3">
-<h3><span class="header-section-number">4.1.1</span> Multiple arguments</h3>
-<p>While being able to check if a single argument is correct in a given function is nice, there are a wide variety of functions were a single argument is not sufficient in order to guarantee correctness of the learner’s submission. Some examples of functions like these are <code>lm()</code>, <code>plot()</code>, and <code>round()</code> as well as many others. Let us say you wanted the learner to run a simple linear regression on a data set. The solution may look something like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(hp<span class="op">~</span>mpg, <span class="dt">data=</span>mtcars)</code></pre></div>
-<p>In this problem, we would want to be able to check that both the <code>formula</code> and the <code>data</code> arguments are specified correctly in the learner’s submission. In order for us to do this, we can make use of brackets <code>{}</code> in order to set up multiple checks for the same function. an example of an SCT that would properly check this would be the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_function</span>(<span class="st">&quot;lm&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>{
-  <span class="kw">check_arg</span>(., <span class="st">&quot;formula&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-  <span class="kw">check_arg</span>(., <span class="st">&quot;data&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-}</code></pre></div>
-<p>As a note: the <code>lm()</code> function is a very adaptable function, and there are multiple ways to run the regression and receive the same output, such as the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(mtcars<span class="op">$</span>hp<span class="op">~</span>mtcars<span class="op">$</span>mpg)</code></pre></div>
-<p>This means that at times, checking multiple arguments may not be the best fit for the SCT, and it may be better to simply check the result using <code>check_result()</code></p>
-</div>
-<div id="multiple-columns" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> Multiple columns</h3>
-<p>Using brackets to check multiple things per call of <code>check_------()</code> is not just unique to functions, and can be applied to nearly all of the check functions that can be used. Another typical use of checking multiple items looks at multiple columns within a dataframe. Lets say you have the following pre-exercise and solution code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#pre-exercise</span>
-mpg=mtcars<span class="op">$</span>mpg
-hp=mtcars<span class="op">$</span>hp
-test.data=<span class="kw">data.frame</span>(mpg,hp)
+<p>The pre-exercise code is a set of code that gives you the ability to run code “behind the scenes”. Typically, these are used to create/assign data to variable names used by the learner. This could be as simple as assigning x to be 23, or as complex as loading in a dataframe, removing/adding columns, renaming columns, and then renaming the whole dataframe.</p>
+<p>To add pre-exercise code to your exercise, you will first have to create a new section code in an R markdown document, which will create something that looks like the following:</p>
+<div class="figure">
+<img src="Pics/Blank.JPG" />
 
-<span class="co">#solution code</span>
-test.data<span class="op">$</span>L.hp=<span class="kw">log</span>(hp)
-test.data<span class="op">$</span>SQRT.hp=<span class="kw">sqrt</span>(hp)</code></pre></div>
-<p>While it is possible to simply check and see if the entire dataframe is correct using a SCT as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_object</span>(<span class="st">&quot;test.data&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()</code></pre></div>
-<p>The SCT does not give you the ability to help learner’s track down exactly where they went wrong in working their way to the solution. A more accurate and helpful approach would be to make use of brackets in the following way:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_object</span>(<span class="st">&quot;test.data&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>{
-  <span class="kw">check_column</span>(., <span class="st">&quot;L.hp&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-  <span class="kw">check_column</span>(., <span class="st">&quot;SQRT.hp&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-} </code></pre></div>
-<p>This gives learners more specific feedback if and when they make a mistake while trying to reach the correct answer.</p>
-<p>As an important note, there are many instances in the SCT were a <code>check_arg()</code> or a <code>check_column()</code> has a <code>.</code> as the first argument followed by a <code>,</code> and then the name of the argument/column that we would like to check. This <code>.</code> is a very important argument for the <code>check</code> family of functions, as it allows the function to search the entirety of the function/dataframe for the listed argument/column, as opposed to only being able to check in a few pre-defined places. If you find that an SCT is not preforming how you believe it should, try adding the <code>.,</code> into your <code>check</code> functions to see if that alleviates the problem.</p>
 </div>
-</div>
-<div id="multiple-function-calls" class="section level2">
-<h2><span class="header-section-number">4.2</span> Multiple Function Calls</h2>
-<hr />
-<p>In this section, you will learn how to:</p>
-<p>-Check if a function is called multiple times</p>
-<p>-check if each function call gives the correct output</p>
-<hr />
-<p>Normally, a problem will only require that a function be called one time at most. Thing such as standard deviations, means, summarys, and plots are done once to get an overview of the data before any real analysis or manipulation of the data starts. However, there are situations where one must make multiple calls of these functions. One example could be if you wanted to have side-by-side graphs, showing the relationship between two things. The pre-exercise and solution code could look like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Pre-exercise</span>
-mpg=mtcars<span class="op">$</span>mpg
-hp=mtcars<span class="op">$</span>hp
-Lhp=<span class="kw">log</span>(mtcars<span class="op">$</span>hp)
-<span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<p>Now, we need to modify a few arguments inside “{r}”. Specifically we need to modify the following: “ex”, “type”, and “tut”. This will look something like the following:</p>
+<div class="figure">
+<img src="Pics/pe.JPG" />
 
-<span class="co">#Solution code</span>
-<span class="kw">plot</span>(<span class="dt">x=</span>mpg, <span class="dt">y=</span>hp, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Miles per gallon vs Horsepower&quot;</span>)
-<span class="kw">plot</span>(<span class="dt">x=</span>mpg, <span class="dt">y=</span>Lhp, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Miles per gallon vs  log Horsepower&quot;</span>)</code></pre></div>
-<p>The standard intuition would be to have 2 SCTs, one to check each call of the function <code>plot()</code> as follows.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_function</span>(<span class="st">&quot;plot&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>{
-  <span class="kw">check_arg</span>(., <span class="st">&quot;x&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-  <span class="kw">check_arg</span>(., <span class="st">&quot;y&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-}
-<span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_function</span>(<span class="st">&quot;plot&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>{
-  <span class="kw">check_arg</span>(., <span class="st">&quot;x&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-  <span class="kw">check_Arg</span>(., <span class="st">&quot;y&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-}</code></pre></div>
-<p>While this may appear to make sense, as you check for plot twice, both calls of <code>check_function(&quot;plot&quot;)</code> will find the first instance of plot, and check that one only. This means even if you were to nest extra <code>check_arg()</code> such as the title or the color, both of the SCTs would focus on the first call of <code>plot()</code> to get around this, we can use an argument inside of <code>check_function()</code> named <code>index</code>. By setting index equal to an integer corresponding with which call of the function you would like the SCT to check, you can now check both calls of <code>plot()</code> and insure they were used correctly. The correct SCT for this problem could look like:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_function</span>(<span class="st">&quot;plot&quot;</span>, <span class="dt">index=</span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span>{
-  <span class="kw">check_arg</span>(., <span class="st">&quot;x&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-  <span class="kw">check_arg</span>(., <span class="st">&quot;y&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-}
-<span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_function</span>(<span class="st">&quot;plot&quot;</span>, <span class="dt">index=</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span>{
-  <span class="kw">check_arg</span>(., <span class="st">&quot;x&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-  <span class="kw">check_arg</span>(., <span class="st">&quot;y&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-}</code></pre></div>
-<p>Now our SCT is set so that our first call of <code>check_function()</code> looks specifically at the first call of <code>plot()</code> and our second call of <code>check_function()</code> looks only at the second call of <code>plot()</code></p>
 </div>
-<div id="messages" class="section level2">
-<h2><span class="header-section-number">4.3</span> Messages</h2>
+<p>For a given set of pre-exercise code, hint, soluton, sct, and sample code, all of the “ex” should be the same. This way DataCamp Lite knows to combine them into a single exercise, as opposed to making each one belong to its own exercise. ## Solution</p>
 <hr />
-<p>In this section, you will learn how to:</p>
-<p>-Write custom error messages for each function in the <code>check</code> family.</p>
-<p>-Include a success message at the end of a SCT</p>
+<p><strong>In this section, you will learn:</strong></p>
+<p>-The code indicating we are writing the solution code</p>
+<p>-The importance and usefulness of the solution code</p>
 <hr />
-<div id="error-messages" class="section level3">
-<h3><span class="header-section-number">4.3.1</span> Error Messages</h3>
-<p>For each and every <code>check</code> function that has been presented in this guide, there is also a matching error message that lets you input a custom message that is displayed if that particular <code>check</code> function is what causes the SCT to fail. Below is a guide showing each of the functions with its matching error message:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(Error.Messages,<span class="dt">row.names=</span><span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>##        Function               Message
-##    check_object         undefined_msg
-##    check_column       col_missing_msg
-##  check_function        not_called_msg
-##       check_arg arg_not_specified_msg
-##     check_equal         incorrect_msg</code></pre>
-<p>The <code>check_result()</code> function does not need to have its own error message, because check result does not actually check anything, it only passes along to the <code>check_equal()</code> that it should be making sure that the solutions are equal.</p>
-<p>For example, lets say the pre-exercise and solution code looked something like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#pre-exercise</span>
-x=<span class="fl">4.68451</span>
+<p>The soltuion code quite simply the “perfect” solution to the problem asked. Ideally, this is done in as few lines as possible, but as many lines as needed. Basially you want it to be a concise answer, but not too concise where it becomes hard to understand or write an SCT for.</p>
+<p>This gets written like normal R code you would write to solve the problem.</p>
+<p>Once again, this will require making a new r chunk in markdown, and modifying the “ex”, “type”, and “tut” arguments. This will looking something like the following for the solution code:</p>
+<div class="figure">
+<img src="Pics/s.JPG" />
 
-<span class="co">#solution</span>
-<span class="kw">round</span>(x,<span class="dv">4</span>)</code></pre></div>
-<p>A working SCT with error messages could look like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_function</span>(<span class="st">&quot;round&quot;</span>, <span class="dt">not_called_msg=</span><span class="st">&quot;Use the `round()` function to round x.&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>{
-  <span class="kw">check_arg</span>(., <span class="st">&quot;x&quot;</span>, <span class="dt">arg_not_specified_msg=</span><span class="st">&quot;Make sure to round the value found in x&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>(<span class="dt">incorrect_msg=</span><span class="st">&quot;Make sure x = 4.68451&quot;</span>)
-  <span class="kw">check_arg</span>(., <span class="st">&quot;digits&quot;</span>,<span class="dt">arg_not_specified_msg=</span><span class="st">&quot;Make sure to specify we want to round x to a specific number of digits&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>(<span class="dt">incorrect_msg=</span><span class="st">&quot;We would like to round x to 4 digits&quot;</span>)
-}</code></pre></div>
-</div>
-<div id="success-messages" class="section level3">
-<h3><span class="header-section-number">4.3.2</span> Success Messages</h3>
-<p>While it is always nice to know what you’ve gotten wrong, it is also nice to receive a positive message whenever you get the problem correct, this can be done with the <code>success_msg()</code> function. The <code>success_msg()</code> goes on its own line, and does not have the typical <code>ex() %&gt;%</code> that the other functions start with. For a very simple example lets say we have the following solution code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x=<span class="dv">4</span></code></pre></div>
-<p>A SCT with a nice success_msg would look like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_object</span>(<span class="st">&quot;x&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()
-<span class="kw">success_msg</span>(<span class="st">&quot;Excellent! you were able to asssign a value of 4 to the variable x.&quot;</span>)</code></pre></div>
 </div>
 </div>
-<div id="review-2" class="section level2">
-<h2><span class="header-section-number">4.4</span> review</h2>
+<div id="sample-code" class="section level2">
+<h2><span class="header-section-number">1.2</span> Sample Code</h2>
 <hr />
-<p><strong>By now, you should be able to:</strong></p>
-<p>-Check for multiple function calls</p>
-<p>-Check for multiple arguments/columns in a single SCT</p>
-<p>-Write error and success messages</p>
+<p><strong>In this section, you will learn:</strong></p>
+<p>-The code indicating we are writing the sample code</p>
+<p>-The importance and usefulness of the sample code</p>
 <hr />
+<p>The sample code acts as a framework for the code the learner should use to solve the code. It can be as simple as having multiple comments telling the learner what to do. This could be something like:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Find the mean of `miles per gallon` using the dataframe `mtcars`, and assign the value to `mean.mpg`</span></code></pre></div>
+<p>On the other hand, you could also put your solution code as your sample code, and then remove a few arguments to allow a learner to understand better how certain functions work, and what arguments they need to plug in. For example, if the question asked a learner to generate 4 random numbers from the exponential distribution with mean 20, you could give them the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">random.numbers=<span class="kw">rexp</span>(<span class="dt">n=</span>___,<span class="dt">rate=</span>____)</code></pre></div>
+<p>Then, all the learner has to do is plug in n=4 and rate=1/20 in order to get the correct answer.</p>
+<p>Once again, this will require making a new r chunk in markdown, and modifying the “ex”, “type”, and “tut” arguments. This will looking something like the following for the sample code:</p>
+<div class="figure">
+<img src="Pics/sc.JPG" />
+
+</div>
+</div>
+<div id="hint" class="section level2">
+<h2><span class="header-section-number">1.3</span> Hint</h2>
+<hr />
+<p><strong>In this section, you will learn:</strong></p>
+<p>-The code indicating we are writing the hint</p>
+<p>-The importance and usefulness of using hint</p>
+<hr />
+<p>The hint, very simply, creates a button that the learner can press to recieve a pre-written hint about how to go about solving the problem. For example, if the question called for the learner to round a value x to 3 digits, the hint could say something like:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;to round a number, you can use `round(x,digits), where x is the number you want to round, and digits is how many digits you would like.&quot;</span></code></pre></div>
+<p>Once again, this will require making a new r chunk in markdown, and modifying the “ex”, “type”, and “tut” arguments. This will looking something like the following for the solution code:</p>
+<div class="figure">
+<img src="Pics/hint.JPG" />
+
+</div>
+</div>
+<div id="example" class="section level2">
+<h2><span class="header-section-number">1.4</span> Example</h2>
+<p>Below is the code used in the first exercise for the linear regression book. First you will see a picture of the code, and then you will see what the code actually looks like. The only other thing that was added was the <code>assignment text</code> and <code>instructions</code> which are both just standard text typed before the <code>hint</code> chunk.</p>
+<div class="figure">
+<img src="Pics/example.JPG" />
+
+</div>
+<div id="exercise.-fitting-galtons-height-data" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> Exercise. Fitting Galton’s height data</h3>
+<p><strong>Assignment Text</strong></p>
+<p>The Galton data has already been read into a dataframe called <code>heights</code>. These data include the heights of 928 adult children <code>child_ht</code>, together with an index of their parents’ height <code>parent_ht</code>. The video explored the distribution of the parents’ height; in this assignment, we investigate the distribution of the heights of the adult children.</p>
+<p><strong>Instructions</strong></p>
+<ul>
+<li>Define the height of an adult child as a global variable</li>
+<li>Use the function <a href="https://www.rdocumentation.org/packages/base/versions/3.5.0/topics/mean/">mean()</a> to calculate the mean and the function <a href="https://www.rdocumentation.org/packages/base/versions/3.5.0/topics/sd/">sd()</a> to calculate the standard deviation</li>
+<li>Use the normal approximation and the function <a href="https://www.rdocumentation.org/packages/stats/versions/3.5.0/topics/Normal/">pnorm()</a> determine the probability that an adult child’s height is less than 72 inches</li>
+</ul>
+<div data-datacamp-exercise="" data-height="300" data-encoded="true">
+eyJsYW5ndWFnZSI6InIiLCJwcmVfZXhlcmNpc2VfY29kZSI6IiNoZWlnaHRzIDwtIHJlYWQuY3N2KFwiQ1NWRGF0YVxcXFxnYWx0b25faGVpZ2h0LmNzdlwiLGhlYWRlciA9IFRSVUUpXG5oZWlnaHRzIDwtIHJlYWQuY3N2KFwiaHR0cHM6Ly9hc3NldHMuZGF0YWNhbXAuY29tL3Byb2R1Y3Rpb24vcmVwb3NpdG9yaWVzLzI2MTAvZGF0YXNldHMvYzg1ZWRlNmMyMDVkMjIwNDllNzY2YmQwODk1NmIyMjVjNTc2MjU1Yi9nYWx0b25faGVpZ2h0LmNzdlwiLCBoZWFkZXIgPSBUUlVFKSIsInNhbXBsZSI6IiNEZWZpbmUgdGhlIGdsb2JhbCB2YXJpYWJsZVxuaHRfY2hpbGQgPC0gX19fXG5cbiNDYWxjdWxhdGUgdGhlIG1lYW4gaGVpZ2h0XG5tY2hpbGQgPC0gX19fXG5tY2hpbGRcblxuI0NhbGN1bGF0ZSB0aGUgc3RhbmRhcmQgZGV2aWF0aW9uIG9mIGhlaWdodHNcbnNkY2hpbGQgPC0gX19fXG5zZGNoaWxkXG5cbiNEZXRlcm1pbmUgdGhlIHByb2JhYmlsaXR5IHRoYXQgdGhlIGhlaWdodCBpcyBsZXNzIHRoYW4gNzJcbnByPV9fXyg3MiwgbWVhbj1tY2hpbGQsIHNkPXNkY2hpbGQpIiwic29sdXRpb24iOiJodF9jaGlsZCA8LSBoZWlnaHRzJGNoaWxkX2h0XG5tY2hpbGQgPC0gbWVhbihodF9jaGlsZClcbnNkY2hpbGQgPC0gc2QoaHRfY2hpbGQpXG5wcj1wbm9ybSg3MiwgbWVhbiA9IG1jaGlsZCwgc2QgPSBzZGNoaWxkKSIsInNjdCI6ImV4KCkgJT4lIGNoZWNrX29iamVjdChcImh0X2NoaWxkXCIsdW5kZWZpbmVkX21zZz1cIk1ha2Ugc3VyZSB5b3UgYXNzaWduIHRoZSBjaGlsZHJlbidzIGhpZ2h0IHRvIGh0X2NoaWxkXCIpICU+JSBjaGVja19lcXVhbChpbmNvcnJlY3RfbXNnPVwiUmVtZW1iZXIgdGhhdCBpbiBvcmRlciB0byBjYWxsIGEgc3BlY2lmaWMgY29sdW1uIGZyb20gYSBkYXRhZnJhbWUsIHVzZSB0aGUgJCBvcGVyYXRvclwiKVxuZXgoKSAlPiUgY2hlY2tfb2JqZWN0KFwibWNoaWxkXCIsdW5kZWZpbmVkX21zZz1cIk1ha2Ugc3VyZSB0byBhc3NpZ24gdGhlIG1lYW4gb2YgdGhlIGNoaWxkcmVuJ3MgaGVpZ2h0cyB0byBgbWNoaWxkYC5cIikgICU+JSBjaGVja19lcXVhbCgpXG5leCgpICU+JSBjaGVja19vYmplY3QoXCJzZGNoaWxkXCIsdW5kZWZpbmVkX21zZz1cIk1ha2Ugc3VyZSB0byBhc3NpZ24gdGhlIHN0YW5kYXJkIGRldmlhdGlvbiBvZiB0aGUgY2hpbGRyZW4ncyBoZWlnaHRzIHRvIGBzZGNoaWxkYC5cIikgJT4lIGNoZWNrX2VxdWFsKClcbmV4KCkgJT4lIGNoZWNrX29iamVjdChcInByXCIsdW5kZWZpbmVkX21zZz1cIk1ha2Ugc3VyZSB0byBhc3NpZ24gdGhlIHByb2JhYmlsaXR5IG9mIGEgY2hpbGQgYmVpbmcgbGVzcyB0aGFuIDcyIGluY2hlcyB0byBgcHJgLlwiKSAlPiUgY2hlY2tfZXF1YWwoKVxuc3VjY2Vzc19tc2coXCJFeGNlbGxlbnQhIFdpdGggdGhpcyBwcm9jZWR1cmUsIHlvdSBjYW4gbm93IGNhbGN1bGF0ZSBwcm9iYWJpbGl0aWVzIGZvciBhbnkgZGlzdHJpYnV0aW9uIHVzaW5nIGEgbm9ybWFsIGN1cnZlIGFwcHJveGltYXRpb24uXCIpIiwiaGludCI6IlJlbWVtYmVyIHRoYXQgd2UgY2FuIHJlZmVyZW5jZSBhIHZhcmlhYmxlLCBzYXkgPGNvZGU+dmFyPC9jb2RlPiwgZnJvbSBhIGRhdGEgc2V0IHN1Y2ggYXMgPGNvZGU+aGVpZ2h0czwvY29kZT4sIGFzIDxjb2RlPmhlaWdodHMkdmFyPC9jb2RlPi4ifQ==
+</div>
+</div>
+</div>
+<div id="more-resources" class="section level2">
+<h2><span class="header-section-number">1.5</span> More Resources</h2>
+<p>If you are looking for more information, try looking at the folliwng wedpage[<a href="https://datacamp.github.io/tutorial/" class="uri">https://datacamp.github.io/tutorial/</a>]</p>
 
 </div>
 </div>
@@ -419,8 +383,8 @@ x=<span class="fl">4.68451</span>
           </div>
         </div>
       </div>
-<a href="checking-functions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="checking-objects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -450,7 +414,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/Chapters/Chapter3.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/Chapters/Chapter0.Rmd",
 "text": "Edit"
 },
 "download": null,
