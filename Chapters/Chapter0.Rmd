@@ -26,7 +26,7 @@ Now, we need to modify a few arguments inside "{r}". Specifically we need to mod
 
 ![ ](/Users/Jake_/Desktop/Work/SCT-in-R/Pics/pe.JPG)
 
-For a given set of pre-exercise code, hint, soluton, sct, and sample code, all of the "ex" should be the same. This way DataCamp Lite knows to combine them into a single exercise, as opposed to making each one belong to its own exercise.
+For a given set of pre-exercise code, hint, soluton, sct, and sample code, all of the "ex" should be the same. This way DataCamp Light knows to combine them into a single exercise, as opposed to making each one belong to its own exercise.
 ## Solution
 
 ***
@@ -168,4 +168,4 @@ If you are looking for more information, try looking at the folliwng webpages:
 [https://datacamp.github.io/tutorial/]
 [https://instructor-support.datacamp.com/]
 
-As a note, writing exercises in Datacamp works exactly the same as DataCamp Lite, so anything you find in regards to DataCamp can more than likely be applied to DataCamp Lite
+As a note, writing exercises in Datacamp works exactly the same as DataCamp Light, so anything you find in regards to DataCamp can more than likely be applied to DataCamp Lite
