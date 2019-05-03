@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="pre-submission-correctness-test.html">
+<link rel="prev" href="index.html">
+<link rel="next" href="checking-objects.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -281,28 +281,101 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">A Guide to Writing Submission Correctness Tests for Datacamp using R</h1>
-<h4 class="author"><em>Jake W. Thornton</em></h4>
+<div id="pre-submission-correctness-test" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Pre Submission Correctness Test</h1>
+<p><strong>Chapter description</strong></p>
+<p>Before we can begin writing a submission correctness test, we first need to create and develop the other elements of a DataCamp light exercise. This chapter serves as a very brief introduction to the other elements of a DataCamp light exercise, as well as the standard notation utilized in the regression book {link here?}.</p>
+<div id="pre-exercise-code" class="section level2">
+<h2><span class="header-section-number">1.1</span> Pre-Exercise Code</h2>
+<hr />
+<p><strong>In this section, you will learn:</strong></p>
+<p>-The code indicating we are writing the pre-exercise code</p>
+<p>-The importance and usefulness of the pre-exercise code</p>
+<hr />
+<p>The pre-exercise code is a set of code that gives you the ability to run code “behind the scenes”. Typically, these are used to create/assign data to variable names used by the learner. This could be as simple as assigning x to be 23, or as complex as loading in a dataframe, removing/adding columns, renaming columns, and then renaming the whole dataframe.</p>
+<p>To add pre-exercise code to your exercise, you will first have to create a new section code in an R markdown document, which will create something that looks like the following:</p>
+<div class="figure">
+<img src="Pics/Blank.JPG" />
+
 </div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p style="text-align:right;">
-<em>Date: 19 April 2019</em>
-</p>
-<div id="about-submission-correctness-tests" class="section level3 unnumbered">
-<h3>About Submission Correctness Tests</h3>
-<p>As businesses continue to collect greater amounts of data, it becomes important for people to develop the technical skills necessary to analyze the data, and report back to the company. One company, DataCamp, offers a solution that can be used to teach programming skills in R and Python. To do this, content creators imagine and design problems that need to be solved using a specific series of coded inputs to help teach. These problems each have solutions that enable the computer to check and see if the learner’s input correctly matches the solution input. In DataCamp, the code used to check for correctness are solution correctness tests, or SCTs for short. In this short tutorial, you will learn how to write a wide variety of SCTs using R.</p>
+<p>Now, we need to modify a few arguments inside “{r}”. Specifically we need to modify the following: “ex”, “type”, and “tut”. This will look something like the following:</p>
+<div class="figure">
+<img src="Pics/pe.JPG" />
+
 </div>
-<div id="the-basics-of-scts" class="section level3 unnumbered">
-<h3>The Basics of SCT’s</h3>
-<p>The basics of writing a submission correctness test consist of an initializing function, a “chain” function, and then varying calls of “check” functions. The initializing function has the form:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>()</code></pre></div>
-<p>while the “chain” function has the form:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">%&gt;%</span></code></pre></div>
-<p>Combining the initial function and a single call of the chain function is the beginning of all the SCTs that you can write using R, and looks like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span></code></pre></div>
-<p>With this in mind, let us learn about the first set of submission correctness tests we can write.</p>
+<p>For a given set of pre-exercise code, hint, soluton, sct, and sample code, all of the “ex” should be the same. This way DataCamp Lite knows to combine them into a single exercise, as opposed to making each one belong to its own exercise. ## Solution</p>
+<hr />
+<p><strong>In this section, you will learn:</strong></p>
+<p>-The code indicating we are writing the solution code</p>
+<p>-The importance and usefulness of the solution code</p>
+<hr />
+<p>The soltuion code quite simply the “perfect” solution to the problem asked. Ideally, this is done in as few lines as possible, but as many lines as needed. Basially you want it to be a concise answer, but not too concise where it becomes hard to understand or write an SCT for.</p>
+<p>This gets written like normal R code you would write to solve the problem.</p>
+<p>Once again, this will require making a new r chunk in markdown, and modifying the “ex”, “type”, and “tut” arguments. This will looking something like the following for the solution code:</p>
+<div class="figure">
+<img src="Pics/s.JPG" />
+
+</div>
+</div>
+<div id="sample-code" class="section level2">
+<h2><span class="header-section-number">1.2</span> Sample Code</h2>
+<hr />
+<p><strong>In this section, you will learn:</strong></p>
+<p>-The code indicating we are writing the sample code</p>
+<p>-The importance and usefulness of the sample code</p>
+<hr />
+<p>The sample code acts as a framework for the code the learner should use to solve the code. It can be as simple as having multiple comments telling the learner what to do. This could be something like:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Find the mean of `miles per gallon` using the dataframe `mtcars`, and assign the value to `mean.mpg`</span></code></pre></div>
+<p>On the other hand, you could also put your solution code as your sample code, and then remove a few arguments to allow a learner to understand better how certain functions work, and what arguments they need to plug in. For example, if the question asked a learner to generate 4 random numbers from the exponential distribution with mean 20, you could give them the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">random.numbers=<span class="kw">rexp</span>(<span class="dt">n=</span>___,<span class="dt">rate=</span>____)</code></pre></div>
+<p>Then, all the learner has to do is plug in n=4 and rate=1/20 in order to get the correct answer.</p>
+<p>Once again, this will require making a new r chunk in markdown, and modifying the “ex”, “type”, and “tut” arguments. This will looking something like the following for the sample code:</p>
+<div class="figure">
+<img src="Pics/sc.JPG" />
+
+</div>
+</div>
+<div id="hint" class="section level2">
+<h2><span class="header-section-number">1.3</span> Hint</h2>
+<hr />
+<p><strong>In this section, you will learn:</strong></p>
+<p>-The code indicating we are writing the hint</p>
+<p>-The importance and usefulness of using hint</p>
+<hr />
+<p>The hint, very simply, creates a button that the learner can press to recieve a pre-written hint about how to go about solving the problem. For example, if the question called for the learner to round a value x to 3 digits, the hint could say something like:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;to round a number, you can use `round(x,digits), where x is the number you want to round, and digits is how many digits you would like.&quot;</span></code></pre></div>
+<p>Once again, this will require making a new r chunk in markdown, and modifying the “ex”, “type”, and “tut” arguments. This will looking something like the following for the solution code:</p>
+<div class="figure">
+<img src="Pics/hint.JPG" />
+
+</div>
+</div>
+<div id="example" class="section level2">
+<h2><span class="header-section-number">1.4</span> Example</h2>
+<p>Below is the code used in the first exercise for the linear regression book. First you will see a picture of the code, and then you will see what the code actually looks like. The only other thing that was added was the <code>assignment text</code> and <code>instructions</code> which are both just standard text typed before the <code>hint</code> chunk.</p>
+<div class="figure">
+<img src="Pics/example.JPG" />
+
+</div>
+<div id="exercise.-fitting-galtons-height-data" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> Exercise. Fitting Galton’s height data</h3>
+<p><strong>Assignment Text</strong></p>
+<p>The Galton data has already been read into a dataframe called <code>heights</code>. These data include the heights of 928 adult children <code>child_ht</code>, together with an index of their parents’ height <code>parent_ht</code>. The video explored the distribution of the parents’ height; in this assignment, we investigate the distribution of the heights of the adult children.</p>
+<p><strong>Instructions</strong></p>
+<ul>
+<li>Define the height of an adult child as a global variable</li>
+<li>Use the function <a href="https://www.rdocumentation.org/packages/base/versions/3.5.0/topics/mean/">mean()</a> to calculate the mean and the function <a href="https://www.rdocumentation.org/packages/base/versions/3.5.0/topics/sd/">sd()</a> to calculate the standard deviation</li>
+<li>Use the normal approximation and the function <a href="https://www.rdocumentation.org/packages/stats/versions/3.5.0/topics/Normal/">pnorm()</a> determine the probability that an adult child’s height is less than 72 inches</li>
+</ul>
+<div data-datacamp-exercise="" data-height="300" data-encoded="true">
+eyJsYW5ndWFnZSI6InIiLCJwcmVfZXhlcmNpc2VfY29kZSI6IiNoZWlnaHRzIDwtIHJlYWQuY3N2KFwiQ1NWRGF0YVxcXFxnYWx0b25faGVpZ2h0LmNzdlwiLGhlYWRlciA9IFRSVUUpXG5oZWlnaHRzIDwtIHJlYWQuY3N2KFwiaHR0cHM6Ly9hc3NldHMuZGF0YWNhbXAuY29tL3Byb2R1Y3Rpb24vcmVwb3NpdG9yaWVzLzI2MTAvZGF0YXNldHMvYzg1ZWRlNmMyMDVkMjIwNDllNzY2YmQwODk1NmIyMjVjNTc2MjU1Yi9nYWx0b25faGVpZ2h0LmNzdlwiLCBoZWFkZXIgPSBUUlVFKSIsInNhbXBsZSI6IiNEZWZpbmUgdGhlIGdsb2JhbCB2YXJpYWJsZVxuaHRfY2hpbGQgPC0gX19fXG5cbiNDYWxjdWxhdGUgdGhlIG1lYW4gaGVpZ2h0XG5tY2hpbGQgPC0gX19fXG5tY2hpbGRcblxuI0NhbGN1bGF0ZSB0aGUgc3RhbmRhcmQgZGV2aWF0aW9uIG9mIGhlaWdodHNcbnNkY2hpbGQgPC0gX19fXG5zZGNoaWxkXG5cbiNEZXRlcm1pbmUgdGhlIHByb2JhYmlsaXR5IHRoYXQgdGhlIGhlaWdodCBpcyBsZXNzIHRoYW4gNzJcbnByPV9fXyg3MiwgbWVhbj1tY2hpbGQsIHNkPXNkY2hpbGQpIiwic29sdXRpb24iOiJodF9jaGlsZCA8LSBoZWlnaHRzJGNoaWxkX2h0XG5tY2hpbGQgPC0gbWVhbihodF9jaGlsZClcbnNkY2hpbGQgPC0gc2QoaHRfY2hpbGQpXG5wcj1wbm9ybSg3MiwgbWVhbiA9IG1jaGlsZCwgc2QgPSBzZGNoaWxkKSIsInNjdCI6ImV4KCkgJT4lIGNoZWNrX29iamVjdChcImh0X2NoaWxkXCIsdW5kZWZpbmVkX21zZz1cIk1ha2Ugc3VyZSB5b3UgYXNzaWduIHRoZSBjaGlsZHJlbidzIGhpZ2h0IHRvIGh0X2NoaWxkXCIpICU+JSBjaGVja19lcXVhbChpbmNvcnJlY3RfbXNnPVwiUmVtZW1iZXIgdGhhdCBpbiBvcmRlciB0byBjYWxsIGEgc3BlY2lmaWMgY29sdW1uIGZyb20gYSBkYXRhZnJhbWUsIHVzZSB0aGUgJCBvcGVyYXRvclwiKVxuZXgoKSAlPiUgY2hlY2tfb2JqZWN0KFwibWNoaWxkXCIsdW5kZWZpbmVkX21zZz1cIk1ha2Ugc3VyZSB0byBhc3NpZ24gdGhlIG1lYW4gb2YgdGhlIGNoaWxkcmVuJ3MgaGVpZ2h0cyB0byBgbWNoaWxkYC5cIikgICU+JSBjaGVja19lcXVhbCgpXG5leCgpICU+JSBjaGVja19vYmplY3QoXCJzZGNoaWxkXCIsdW5kZWZpbmVkX21zZz1cIk1ha2Ugc3VyZSB0byBhc3NpZ24gdGhlIHN0YW5kYXJkIGRldmlhdGlvbiBvZiB0aGUgY2hpbGRyZW4ncyBoZWlnaHRzIHRvIGBzZGNoaWxkYC5cIikgJT4lIGNoZWNrX2VxdWFsKClcbmV4KCkgJT4lIGNoZWNrX29iamVjdChcInByXCIsdW5kZWZpbmVkX21zZz1cIk1ha2Ugc3VyZSB0byBhc3NpZ24gdGhlIHByb2JhYmlsaXR5IG9mIGEgY2hpbGQgYmVpbmcgbGVzcyB0aGFuIDcyIGluY2hlcyB0byBgcHJgLlwiKSAlPiUgY2hlY2tfZXF1YWwoKVxuc3VjY2Vzc19tc2coXCJFeGNlbGxlbnQhIFdpdGggdGhpcyBwcm9jZWR1cmUsIHlvdSBjYW4gbm93IGNhbGN1bGF0ZSBwcm9iYWJpbGl0aWVzIGZvciBhbnkgZGlzdHJpYnV0aW9uIHVzaW5nIGEgbm9ybWFsIGN1cnZlIGFwcHJveGltYXRpb24uXCIpIiwiaGludCI6IlJlbWVtYmVyIHRoYXQgd2UgY2FuIHJlZmVyZW5jZSBhIHZhcmlhYmxlLCBzYXkgPGNvZGU+dmFyPC9jb2RlPiwgZnJvbSBhIGRhdGEgc2V0IHN1Y2ggYXMgPGNvZGU+aGVpZ2h0czwvY29kZT4sIGFzIDxjb2RlPmhlaWdodHMkdmFyPC9jb2RlPi4ifQ==
+</div>
+</div>
+</div>
+<div id="more-resources" class="section level2">
+<h2><span class="header-section-number">1.5</span> More Resources</h2>
+<p>If you are looking for more information, try looking at the folliwng webpages: [<a href="https://datacamp.github.io/tutorial/" class="uri">https://datacamp.github.io/tutorial/</a>][<a href="https://instructor-support.datacamp.com/" class="uri">https://instructor-support.datacamp.com/</a>]</p>
+<p>As a note, writing exercises in Datacamp works exactly the same as DataCamp Lite, so anything you find in regards to DataCamp can more than likely be applied to DataCamp Lite</p>
 
 </div>
 </div>
@@ -311,8 +384,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="pre-submission-correctness-test.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="checking-objects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -342,7 +415,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/Chapters/Chapter0.Rmd",
 "text": "Edit"
 },
 "download": null,

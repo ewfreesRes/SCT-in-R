@@ -1,5 +1,5 @@
 --- 
-title: "A Guide to Writing Submission Correctness Tests for Datacamp using R"
+title: "Actuarial Applications of DataCamp Light in R"
 author: "Jake W. Thornton"
 site: bookdown::bookdown_site
 output:
