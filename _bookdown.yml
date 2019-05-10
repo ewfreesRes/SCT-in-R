@@ -1,6 +1,6 @@
 book_filename: "SCTinR-DataCamp"
 output_dir: "docs"
-rmd_files: ["index.Rmd", "Chapters/Chapter0.Rmd",
+rmd_files: ["index.Rmd", "Chapters/Chapter0.Rmd","Chapters/Chapterpre.Rmd",
            "Chapters/Chapter1.Rmd",
            "Chapters/Chapter2.Rmd",
            "Chapters/Chapter3.Rmd"]
