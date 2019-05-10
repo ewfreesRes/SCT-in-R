@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>A Guide to Writing Submission Correctness Tests for Datacamp using R</title>
+  <title>Actuarial Applications of DataCamp Light in R</title>
   <meta name="description" content="As businesses continue to collect greater amounts of data, it becomes important for people to develop the technical skills necessary to analyze the data, and report back to the company. One company, DataCamp, offers a solution that can be used to teach programming skills in R and Python. To do this, content creators imagine and design problems that need to be solved using a specific series of coded inputs to help teach. These problems each have solutions that enable the computer to check and see if the learner’s input correctly matches the solution input. In DataCamp, the code used to check for correctness are solution correctness tests, or SCTs for short. In this short tutorial, you will learn how to write a wide variety of SCTs using R.">
   <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
-  <meta property="og:title" content="A Guide to Writing Submission Correctness Tests for Datacamp using R" />
+  <meta property="og:title" content="Actuarial Applications of DataCamp Light in R" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="A Guide to Writing Submission Correctness Tests for Datacamp using R" />
+  <meta name="twitter:title" content="Actuarial Applications of DataCamp Light in R" />
   
   <meta name="twitter:description" content="As businesses continue to collect greater amounts of data, it becomes important for people to develop the technical skills necessary to analyze the data, and report back to the company. One company, DataCamp, offers a solution that can be used to teach programming skills in R and Python. To do this, content creators imagine and design problems that need to be solved using a specific series of coded inputs to help teach. These problems each have solutions that enable the computer to check and see if the learner’s input correctly matches the solution input. In DataCamp, the code used to check for correctness are solution correctness tests, or SCTs for short. In this short tutorial, you will learn how to write a wide variety of SCTs using R." />
   
@@ -214,55 +214,56 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">SCT in R for DataCamp</a></li>
+<li><a href="./">Actuarial Applications for DataCamp Light in R</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#about-submission-correctness-tests"><i class="fa fa-check"></i>About Submission Correctness Tests</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-basics-of-scts"><i class="fa fa-check"></i>The Basics of SCT’s</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html"><i class="fa fa-check"></i><b>1</b> Pre Submission Correctness Test</a><ul>
 <li class="chapter" data-level="1.1" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#pre-exercise-code"><i class="fa fa-check"></i><b>1.1</b> Pre-Exercise Code</a></li>
-<li class="chapter" data-level="1.2" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#sample-code"><i class="fa fa-check"></i><b>1.2</b> Sample Code</a></li>
-<li class="chapter" data-level="1.3" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#hint"><i class="fa fa-check"></i><b>1.3</b> Hint</a></li>
-<li class="chapter" data-level="1.4" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#example"><i class="fa fa-check"></i><b>1.4</b> Example</a><ul>
-<li class="chapter" data-level="1.4.1" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#exercise.-fitting-galtons-height-data"><i class="fa fa-check"></i><b>1.4.1</b> Exercise. Fitting Galton’s height data</a></li>
+<li class="chapter" data-level="1.2" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#solution"><i class="fa fa-check"></i><b>1.2</b> Solution</a></li>
+<li class="chapter" data-level="1.3" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#sample-code"><i class="fa fa-check"></i><b>1.3</b> Sample Code</a></li>
+<li class="chapter" data-level="1.4" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#hint"><i class="fa fa-check"></i><b>1.4</b> Hint</a></li>
+<li class="chapter" data-level="1.5" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#example"><i class="fa fa-check"></i><b>1.5</b> Example</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#exercise.-fitting-galtons-height-data"><i class="fa fa-check"></i><b>1.5.1</b> Exercise. Fitting Galton’s height data</a></li>
 </ul></li>
-<li class="chapter" data-level="1.5" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#more-resources"><i class="fa fa-check"></i><b>1.5</b> More Resources</a></li>
+<li class="chapter" data-level="1.6" data-path="pre-submission-correctness-test.html"><a href="pre-submission-correctness-test.html#more-resources"><i class="fa fa-check"></i><b>1.6</b> More Resources</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="checking-objects.html"><a href="checking-objects.html"><i class="fa fa-check"></i><b>2</b> Checking Objects</a><ul>
-<li class="chapter" data-level="2.1" data-path="checking-objects.html"><a href="checking-objects.html#checking-a-vector"><i class="fa fa-check"></i><b>2.1</b> Checking a vector</a><ul>
-<li class="chapter" data-level="2.1.1" data-path="checking-objects.html"><a href="checking-objects.html#checking-an-objects-existence"><i class="fa fa-check"></i><b>2.1.1</b> Checking an object’s existence</a></li>
-<li class="chapter" data-level="2.1.2" data-path="checking-objects.html"><a href="checking-objects.html#check-an-objects-correctness"><i class="fa fa-check"></i><b>2.1.2</b> Check an object’s correctness</a></li>
+<li class="chapter" data-level="2" data-path="the-basics-of-scts.html"><a href="the-basics-of-scts.html"><i class="fa fa-check"></i><b>2</b> The Basics of SCT’s</a></li>
+<li class="chapter" data-level="3" data-path="checking-objects.html"><a href="checking-objects.html"><i class="fa fa-check"></i><b>3</b> Checking Objects</a><ul>
+<li class="chapter" data-level="3.1" data-path="checking-objects.html"><a href="checking-objects.html#checking-a-vector"><i class="fa fa-check"></i><b>3.1</b> Checking a vector</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="checking-objects.html"><a href="checking-objects.html#checking-an-objects-existence"><i class="fa fa-check"></i><b>3.1.1</b> Checking an object’s existence</a></li>
+<li class="chapter" data-level="3.1.2" data-path="checking-objects.html"><a href="checking-objects.html#check-an-objects-correctness"><i class="fa fa-check"></i><b>3.1.2</b> Check an object’s correctness</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="checking-objects.html"><a href="checking-objects.html#checking-a-dataframe"><i class="fa fa-check"></i><b>2.2</b> Checking a Dataframe</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="checking-objects.html"><a href="checking-objects.html#checking-a-dataframes-existence-and-correctness"><i class="fa fa-check"></i><b>2.2.1</b> Checking a dataframe’s existence and correctness</a></li>
-<li class="chapter" data-level="2.2.2" data-path="checking-objects.html"><a href="checking-objects.html#checking-columns"><i class="fa fa-check"></i><b>2.2.2</b> Checking columns</a></li>
+<li class="chapter" data-level="3.2" data-path="checking-objects.html"><a href="checking-objects.html#checking-a-dataframe"><i class="fa fa-check"></i><b>3.2</b> Checking a Dataframe</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="checking-objects.html"><a href="checking-objects.html#checking-a-dataframes-existence-and-correctness"><i class="fa fa-check"></i><b>3.2.1</b> Checking a dataframe’s existence and correctness</a></li>
+<li class="chapter" data-level="3.2.2" data-path="checking-objects.html"><a href="checking-objects.html#checking-columns"><i class="fa fa-check"></i><b>3.2.2</b> Checking columns</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="checking-objects.html"><a href="checking-objects.html#review"><i class="fa fa-check"></i><b>2.3</b> review</a></li>
+<li class="chapter" data-level="3.3" data-path="checking-objects.html"><a href="checking-objects.html#review"><i class="fa fa-check"></i><b>3.3</b> review</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="checking-functions.html"><a href="checking-functions.html"><i class="fa fa-check"></i><b>3</b> Checking Functions</a><ul>
-<li class="chapter" data-level="3.1" data-path="checking-functions.html"><a href="checking-functions.html#checking-function-calls"><i class="fa fa-check"></i><b>3.1</b> Checking function calls</a></li>
-<li class="chapter" data-level="3.2" data-path="checking-functions.html"><a href="checking-functions.html#calling-functions-correctly"><i class="fa fa-check"></i><b>3.2</b> Calling Functions Correctly</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="checking-functions.html"><a href="checking-functions.html#argument-approach"><i class="fa fa-check"></i><b>3.2.1</b> Argument Approach</a></li>
-<li class="chapter" data-level="3.2.2" data-path="checking-functions.html"><a href="checking-functions.html#output-approach"><i class="fa fa-check"></i><b>3.2.2</b> Output Approach</a></li>
+<li class="chapter" data-level="4" data-path="checking-functions.html"><a href="checking-functions.html"><i class="fa fa-check"></i><b>4</b> Checking Functions</a><ul>
+<li class="chapter" data-level="4.1" data-path="checking-functions.html"><a href="checking-functions.html#checking-function-calls"><i class="fa fa-check"></i><b>4.1</b> Checking function calls</a></li>
+<li class="chapter" data-level="4.2" data-path="checking-functions.html"><a href="checking-functions.html#calling-functions-correctly"><i class="fa fa-check"></i><b>4.2</b> Calling Functions Correctly</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="checking-functions.html"><a href="checking-functions.html#argument-approach"><i class="fa fa-check"></i><b>4.2.1</b> Argument Approach</a></li>
+<li class="chapter" data-level="4.2.2" data-path="checking-functions.html"><a href="checking-functions.html#output-approach"><i class="fa fa-check"></i><b>4.2.2</b> Output Approach</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="checking-functions.html"><a href="checking-functions.html#review-1"><i class="fa fa-check"></i><b>3.3</b> review</a></li>
+<li class="chapter" data-level="4.3" data-path="checking-functions.html"><a href="checking-functions.html#review-1"><i class="fa fa-check"></i><b>4.3</b> review</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="extras.html"><a href="extras.html"><i class="fa fa-check"></i><b>4</b> Extras</a><ul>
-<li class="chapter" data-level="4.1" data-path="extras.html"><a href="extras.html#checking-multiple-conditions"><i class="fa fa-check"></i><b>4.1</b> Checking Multiple Conditions</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="extras.html"><a href="extras.html#multiple-arguments"><i class="fa fa-check"></i><b>4.1.1</b> Multiple arguments</a></li>
-<li class="chapter" data-level="4.1.2" data-path="extras.html"><a href="extras.html#multiple-columns"><i class="fa fa-check"></i><b>4.1.2</b> Multiple columns</a></li>
+<li class="chapter" data-level="5" data-path="extras.html"><a href="extras.html"><i class="fa fa-check"></i><b>5</b> Extras</a><ul>
+<li class="chapter" data-level="5.1" data-path="extras.html"><a href="extras.html#checking-multiple-conditions"><i class="fa fa-check"></i><b>5.1</b> Checking Multiple Conditions</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="extras.html"><a href="extras.html#multiple-arguments"><i class="fa fa-check"></i><b>5.1.1</b> Multiple arguments</a></li>
+<li class="chapter" data-level="5.1.2" data-path="extras.html"><a href="extras.html#multiple-columns"><i class="fa fa-check"></i><b>5.1.2</b> Multiple columns</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="extras.html"><a href="extras.html#multiple-function-calls"><i class="fa fa-check"></i><b>4.2</b> Multiple Function Calls</a></li>
-<li class="chapter" data-level="4.3" data-path="extras.html"><a href="extras.html#messages"><i class="fa fa-check"></i><b>4.3</b> Messages</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="extras.html"><a href="extras.html#error-messages"><i class="fa fa-check"></i><b>4.3.1</b> Error Messages</a></li>
-<li class="chapter" data-level="4.3.2" data-path="extras.html"><a href="extras.html#success-messages"><i class="fa fa-check"></i><b>4.3.2</b> Success Messages</a></li>
+<li class="chapter" data-level="5.2" data-path="extras.html"><a href="extras.html#multiple-function-calls"><i class="fa fa-check"></i><b>5.2</b> Multiple Function Calls</a></li>
+<li class="chapter" data-level="5.3" data-path="extras.html"><a href="extras.html#messages"><i class="fa fa-check"></i><b>5.3</b> Messages</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="extras.html"><a href="extras.html#error-messages"><i class="fa fa-check"></i><b>5.3.1</b> Error Messages</a></li>
+<li class="chapter" data-level="5.3.2" data-path="extras.html"><a href="extras.html#success-messages"><i class="fa fa-check"></i><b>5.3.2</b> Success Messages</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="extras.html"><a href="extras.html#review-2"><i class="fa fa-check"></i><b>4.4</b> review</a></li>
+<li class="chapter" data-level="5.4" data-path="extras.html"><a href="extras.html#review-2"><i class="fa fa-check"></i><b>5.4</b> review</a></li>
 </ul></li>
 <li class="divider"></li>
-<li><a href="https://github.com/thornton4/SCT-in-R" target="blank">SCT in R for DataCamp on GitHub</a></li>
+<li><a href="https://github.com/thornton4/SCT-in-R" target="blank">Source Code on GitHub</a></li>
 
 </ul>
 
@@ -273,7 +274,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Guide to Writing Submission Correctness Tests for Datacamp using R</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Actuarial Applications of DataCamp Light in R</a>
           </h1>
         </div>
 
@@ -282,18 +283,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="extras" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Extras</h1>
+<h1><span class="header-section-number">Chapter 5</span> Extras</h1>
 <p><strong>Chapter Description</strong></p>
 <p>This chapter introduces a variety of special conditions and unique functions that can be used to create more accurate and useful submission correctness tests. In addition to this, we also mention arguments of check functions that can be used to write custom error or success messages to your submission correctness tests.</p>
 <div id="checking-multiple-conditions" class="section level2">
-<h2><span class="header-section-number">4.1</span> Checking Multiple Conditions</h2>
+<h2><span class="header-section-number">5.1</span> Checking Multiple Conditions</h2>
 <hr />
 <p>In this section, you will learn how to:</p>
 <p>-Check multiple arguments for a given function</p>
 <p>-check multiple columns for a given dataframe</p>
 <hr />
 <div id="multiple-arguments" class="section level3">
-<h3><span class="header-section-number">4.1.1</span> Multiple arguments</h3>
+<h3><span class="header-section-number">5.1.1</span> Multiple arguments</h3>
 <p>While being able to check if a single argument is correct in a given function is nice, there are a wide variety of functions were a single argument is not sufficient in order to guarantee correctness of the learner’s submission. Some examples of functions like these are <code>lm()</code>, <code>plot()</code>, and <code>round()</code> as well as many others. Let us say you wanted the learner to run a simple linear regression on a data set. The solution may look something like the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(hp<span class="op">~</span>mpg, <span class="dt">data=</span>mtcars)</code></pre></div>
 <p>In this problem, we would want to be able to check that both the <code>formula</code> and the <code>data</code> arguments are specified correctly in the learner’s submission. In order for us to do this, we can make use of brackets <code>{}</code> in order to set up multiple checks for the same function. an example of an SCT that would properly check this would be the following:</p>
@@ -306,7 +307,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>This means that at times, checking multiple arguments may not be the best fit for the SCT, and it may be better to simply check the result using <code>check_result()</code></p>
 </div>
 <div id="multiple-columns" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> Multiple columns</h3>
+<h3><span class="header-section-number">5.1.2</span> Multiple columns</h3>
 <p>Using brackets to check multiple things per call of <code>check_------()</code> is not just unique to functions, and can be applied to nearly all of the check functions that can be used. Another typical use of checking multiple items looks at multiple columns within a dataframe. Lets say you have the following pre-exercise and solution code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#pre-exercise</span>
 mpg=mtcars<span class="op">$</span>mpg
@@ -328,7 +329,7 @@ test.data<span class="op">$</span>SQRT.hp=<span class="kw">sqrt</span>(hp)</code
 </div>
 </div>
 <div id="multiple-function-calls" class="section level2">
-<h2><span class="header-section-number">4.2</span> Multiple Function Calls</h2>
+<h2><span class="header-section-number">5.2</span> Multiple Function Calls</h2>
 <hr />
 <p>In this section, you will learn how to:</p>
 <p>-Check if a function is called multiple times</p>
@@ -365,14 +366,14 @@ Lhp=<span class="kw">log</span>(mtcars<span class="op">$</span>hp)
 <p>Now our SCT is set so that our first call of <code>check_function()</code> looks specifically at the first call of <code>plot()</code> and our second call of <code>check_function()</code> looks only at the second call of <code>plot()</code></p>
 </div>
 <div id="messages" class="section level2">
-<h2><span class="header-section-number">4.3</span> Messages</h2>
+<h2><span class="header-section-number">5.3</span> Messages</h2>
 <hr />
 <p>In this section, you will learn how to:</p>
 <p>-Write custom error messages for each function in the <code>check</code> family.</p>
 <p>-Include a success message at the end of a SCT</p>
 <hr />
 <div id="error-messages" class="section level3">
-<h3><span class="header-section-number">4.3.1</span> Error Messages</h3>
+<h3><span class="header-section-number">5.3.1</span> Error Messages</h3>
 <p>For each and every <code>check</code> function that has been presented in this guide, there is also a matching error message that lets you input a custom message that is displayed if that particular <code>check</code> function is what causes the SCT to fail. Below is a guide showing each of the functions with its matching error message:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(Error.Messages,<span class="dt">row.names=</span><span class="ot">FALSE</span>)</code></pre></div>
 <pre><code>##        Function               Message
@@ -395,7 +396,7 @@ x=<span class="fl">4.68451</span>
 }</code></pre></div>
 </div>
 <div id="success-messages" class="section level3">
-<h3><span class="header-section-number">4.3.2</span> Success Messages</h3>
+<h3><span class="header-section-number">5.3.2</span> Success Messages</h3>
 <p>While it is always nice to know what you’ve gotten wrong, it is also nice to receive a positive message whenever you get the problem correct, this can be done with the <code>success_msg()</code> function. The <code>success_msg()</code> goes on its own line, and does not have the typical <code>ex() %&gt;%</code> that the other functions start with. For a very simple example lets say we have the following solution code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x=<span class="dv">4</span></code></pre></div>
 <p>A SCT with a nice success_msg would look like the following:</p>
@@ -404,7 +405,7 @@ x=<span class="fl">4.68451</span>
 </div>
 </div>
 <div id="review-2" class="section level2">
-<h2><span class="header-section-number">4.4</span> review</h2>
+<h2><span class="header-section-number">5.4</span> review</h2>
 <hr />
 <p><strong>By now, you should be able to:</strong></p>
 <p>-Check for multiple function calls</p>

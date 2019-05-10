@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="the-basics-of-scts.html">
-<link rel="next" href="checking-functions.html">
+<link rel="prev" href="pre-submission-correctness-test.html">
+<link rel="next" href="checking-objects.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -282,112 +282,24 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="checking-objects" class="section level1">
-<h1><span class="header-section-number">Chapter 3</span> Checking Objects</h1>
-<p><strong>Chapter description</strong></p>
-<p>This chapter serves as in introduction to the most basic and useful submission correctness test that can be utilized in both DataCamp and DataCamp light, how to check objects in R. It begins with checking the existence of vectors in R, moves into making sure that the contents of the vector are correct, and ends with checking the existence of dataframes, as well as specific columns inside of a dataframe.</p>
-<div id="checking-a-vector" class="section level2">
-<h2><span class="header-section-number">3.1</span> Checking a vector</h2>
-<hr />
-<p><strong>In this section, you will learn how to:</strong></p>
-<ul>
-<li><p>Check that a vector exists in R</p></li>
-<li><p>Check to see if the contents of the vector match the contents found in the solution.</p></li>
-</ul>
-<hr />
-<div id="checking-an-objects-existence" class="section level3">
-<h3><span class="header-section-number">3.1.1</span> Checking an object’s existence</h3>
-<p>One of the most useful tools that can be utilized when creating submission correctness tests. Say for example, that the question asked a learner to assign the value of 23 to the variable <code>x</code>. The correct answer would look something like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="dv">23</span></code></pre></div>
-<p>The first step is to check and see whether or not the learner was able to define a variable <code>x</code>. This can be done with the <code>check_object()</code> function in R. A SCT that property identifies whether or not a learner was able to create an object named <code>x</code> can be seen below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_object</span>(<span class="st">&quot;x&quot;</span>)</code></pre></div>
-<p>If the learner has assigned any value or string to a variable named <code>x</code>, the SCT will come back as passed, and will assume everything is correct. The <code>check_object()</code> function will work for any object that exists in R, such as singular numbers, vectors, character strings, matrices, and lists. This implies that all of the following as “correct” possible answers while using the previously mentioned SCT:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="dv">23</span>
-x =<span class="st"> </span><span class="kw">c</span>(<span class="dv">19</span>,<span class="dv">4</span>,<span class="dv">6</span>)
-x =<span class="st"> &quot;oranges&quot;</span>
-x =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,<span class="dt">nrow=</span><span class="dv">7</span>,<span class="dt">ncol=</span><span class="dv">3</span>)</code></pre></div>
-<p>Since this can not all possibly be correct at the same time, it is also important to write a SCT that checks to insure the content of the object is also correct.</p>
-</div>
-<div id="check-an-objects-correctness" class="section level3">
-<h3><span class="header-section-number">3.1.2</span> Check an object’s correctness</h3>
-<p>Now that we are able to check and see whether or not an object has been defined in R, it becomes important to check to see whether or not the content of that object matches what is found in the solution. looking back to our simple example we have:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="dv">23</span></code></pre></div>
-<p>We are aware that we can check if <code>x</code> exists or not in the R environment using <code>Check_object()</code>. Following that, we are able to utilize <code>check_equal()</code> as the next step in order to see if the content of <code>x</code> matches what is found in the solution inventor. One example of an SCT what would property check the existence and correctness of <code>x</code> would be as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_object</span>(<span class="st">&quot;x&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()</code></pre></div>
-<p>This SCT first checks to see whether or not an object named <code>x</code> exists in the R environment. If <code>x</code> does not exist, it will give a general error saying that the object <code>x</code> has yet to be defined. If <code>x</code> does exist, then it will check and see whether or not the contents of the learners assigned variable match those found in the solution. Now only the top line works, while the rest fail due to various reasons:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#code that would pass</span>
-x =<span class="st"> </span><span class="dv">23</span>
+<div id="the-basics-of-scts" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> The Basics of SCT’s</h1>
+<p>The basics of writing a submission correctness test consist of an initializing function, a “chain” function, and then varying calls of “check” functions. The initializing function has the form:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>()</code></pre></div>
+<p>while the “chain” function has the form:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">%&gt;%</span></code></pre></div>
+<p>Combining the initial function and a single call of the chain function is the beginning of all the SCTs that you can write using R, and looks like the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span></code></pre></div>
+<p>With this in mind, let us learn about the first set of submission correctness tests we can write.</p>
 
-<span class="co">#code that fails because x is not defined</span>
-y =<span class="st"> </span><span class="fl">3.14</span>
-y =<span class="st"> </span><span class="dv">23</span>
-
-<span class="co">#code that fails because x is not correct</span>
-x =<span class="st"> </span><span class="kw">c</span>(<span class="dv">19</span>,<span class="dv">4</span>,<span class="dv">6</span>)
-x =<span class="st"> &quot;oranges&quot;</span>
-x =<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,<span class="dt">nrow=</span><span class="dv">7</span>,<span class="dt">ncol=</span><span class="dv">3</span>)</code></pre></div>
-</div>
-</div>
-<div id="checking-a-dataframe" class="section level2">
-<h2><span class="header-section-number">3.2</span> Checking a Dataframe</h2>
-<hr />
-<p><strong>In this section, you will learn how to:</strong></p>
-<ul>
-<li><p>Check that a dataframe exists in R</p></li>
-<li><p>Check to see that specific columns have been defined within a dataframe</p></li>
-</ul>
-<hr />
-<div id="checking-a-dataframes-existence-and-correctness" class="section level3">
-<h3><span class="header-section-number">3.2.1</span> Checking a dataframe’s existence and correctness</h3>
-<p>Let us complicate our example a little bit, and move from a simple vector to a dataframe initially containing two columns, <code>x1</code> and <code>x2</code> into a dataframe named test.data as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x1=<span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">1</span>)
-x2=<span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">10</span>)
-test.data=<span class="kw">data.frame</span>(x1,x2)</code></pre></div>
-<p>Using <code>check_object()</code> we can check and see whether or not the dataframe exists, just like any other object in R. One SCT for testing this using our example is as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_object</span>(<span class="st">&quot;test.data&quot;</span>)</code></pre></div>
-<p>in addition to that, we may also use <code>check_equal()</code> to insure that the learner’s solution, and the official solution are a perfect match. This would look something like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_obect</span>(<span class="st">&quot;test.data&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()</code></pre></div>
-</div>
-<div id="checking-columns" class="section level3">
-<h3><span class="header-section-number">3.2.2</span> Checking columns</h3>
-<p>While it may be useful to check that the entirety of the learner’s dataframe perfectly matches yours, there may be situations where the learner decides to take an extra step in getting to the desired solution. Take the following as an example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Pre Exercise Code</span>
-O=<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">2</span>,<span class="dv">9</span>,<span class="dv">3</span>,<span class="dv">5</span>)
-E=<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">1</span>,<span class="dv">7</span>)
-data.chisq=<span class="kw">data.frame</span>(O,E)
-
-<span class="co">#Solution Code</span>
-data.chisq<span class="op">$</span>chisq=((data.chisq<span class="op">$</span>O<span class="op">-</span>data.chisq<span class="op">$</span>E)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span>data.chisq<span class="op">$</span>E
-
-<span class="co">#Learner&#39;s Code</span>
-data.chisq<span class="op">$</span>O.E=data.chisq<span class="op">$</span>O<span class="op">-</span>data.chisq<span class="op">$</span>E
-data.chisq<span class="op">$</span>sq=data.chisq<span class="op">$</span>O.E<span class="op">^</span><span class="dv">2</span>
-data.chisq<span class="op">$</span>chisq=data.chisq<span class="op">$</span>sq<span class="op">/</span>data.chisq<span class="op">$</span>E</code></pre></div>
-<p>As you can tell, the learner created a few extra columns that were used to calculate the end result. If we were to simply use <code>check_equal()</code> immediately after our <code>check_object()</code>, the result would say that the learner’s answer is not correct, which is not the result we want. We can get around this by checking to see whether or not a specific column exists inside of a dataframe, and then checking to see if its contents are correct.</p>
-<p>To check the existence of a column inside of a dataframe, we can use the <code>check_column()</code> function after our <code>check_object()</code> function as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_object</span>(<span class="st">&quot;data.chisq&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_column</span>(., <span class="st">&quot;chisq&quot;</span>)</code></pre></div>
-<p>Furthermore, we can check and insure that the contents of <code>data.chisq$chisq</code> are correct by adding the <code>check_equal()</code> function after the <code>check_column()</code> function as such:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ex</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_object</span>(<span class="st">&quot;data.chisq&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_column</span>(., <span class="st">&quot;chisq&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">check_equal</span>()</code></pre></div>
-</div>
-</div>
-<div id="review" class="section level2">
-<h2><span class="header-section-number">3.3</span> review</h2>
-<hr />
-<p><strong>By now, you should be able to:</strong></p>
-<p>-check an object’s existence</p>
-<p>-Check to see if an object has been correctly defined</p>
-<p>-check to see if specific columns in a dataframe have been defined correctly</p>
-<hr />
-
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="the-basics-of-scts.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="checking-functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="pre-submission-correctness-test.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="checking-objects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -417,7 +329,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/Chapters/Chapter1.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/Chapters/Chapterpre.Rmd",
 "text": "Edit"
 },
 "download": null,
